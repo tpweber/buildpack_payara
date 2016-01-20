@@ -97,7 +97,7 @@ module JavaBuildpack
 
         # Don't modify context root for wars within Ear as there can be multiple wars.
         # Modify the context root to '/' in case of war
-        # and prefer_root_web_context is enabled in buildpack payara.yml config
+        # and prefer_root_web_context is enabled in buildpack payara_as.yml config
         modify_context_root_for_war if web_inf? && @prefer_root_web_context
       end
 
