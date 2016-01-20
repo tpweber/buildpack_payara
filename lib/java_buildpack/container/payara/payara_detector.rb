@@ -22,7 +22,7 @@ module JavaBuildpack
       class PayaraDetector
         include JavaBuildpack::Container::Payara::PayaraConstants
 
-        # return true if the application should be run on Weblogic
+        # return true if the application should be run on Payara
         def self.detect(application)
           search_path        = (application.root).to_s + '/**/glassfish*xml'
           payara_config_present = Dir.glob(search_path).length > 0

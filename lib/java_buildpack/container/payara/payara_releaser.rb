@@ -98,8 +98,8 @@ module JavaBuildpack
           modified = modified.gsub(/REPLACE_JAVA_ARGS_MARKER/, @droplet.java_opts.join(' '))
           modified = modified.gsub(/REPLACE_DOMAIN_HOME_MARKER/, @domain_home.to_s)
           modified = modified.gsub(/REPLACE_SERVER_NAME_MARKER/, @server_name)
-          modified = modified.gsub(/REPLACE_WLS_PRE_JARS_CACHE_DIR_MARKER/, WLS_PRE_JARS_CACHE_DIR)
-          modified = modified.gsub(/REPLACE_WLS_POST_JARS_CACHE_DIR_MARKER/, WLS_POST_JARS_CACHE_DIR)
+          modified = modified.gsub(/REPLACE_PAYARA_PRE_JARS_CACHE_DIR_MARKER/, PAYARA_PRE_JARS_CACHE_DIR)
+          modified = modified.gsub(/REPLACE_PAYARA_POST_JARS_CACHE_DIR_MARKER/, PAYARA_POST_JARS_CACHE_DIR)
           modified = modified.gsub(/REPLACE_STAGING_MEMORY_LIMIT_MARKER/, staging_memory_limit)
 
           File.open(script_path, 'w') { |f| f.write modified }

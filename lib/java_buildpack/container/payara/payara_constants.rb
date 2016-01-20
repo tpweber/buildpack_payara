@@ -72,7 +72,7 @@ module JavaBuildpack
         # Following are relative to the .wls folder all under the APP ROOT
         PAYARA_SCRIPT_CACHE_DIR       = 'script'.freeze
 
-        # Default WebLogic Configurations packaged within the buildpack
+        # Default Payara Configurations packaged within the buildpack
         BUILDPACK_CONFIG_CACHE_DIR = Pathname.new(File.expand_path('../../../../resources/payara',
                                                                    File.dirname(__FILE__))).freeze
 

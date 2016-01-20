@@ -240,7 +240,7 @@ module JavaBuildpack
           # Use the app bundled configuration and domain creation scripts.
           @app_config_cache_root
         else
-          # Use the buidlpack's bundled configuration and domain creation scripts (under resources/wls)
+          # Use the buildpack's bundled configuration and domain creation scripts (under resources/wls)
           # But the jvm and domain configuration files from the app bundle will be used, rather than the buildpack
           # version.
           @buildpack_config_cache_root
@@ -284,11 +284,11 @@ module JavaBuildpack
           'payara_domain_path'          => @payara_domain_path
         }
 
-        configurer = JavaBuildpack::Container::Wls::WlsConfigurer.new(configuration_map)
+        configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
         configurer.configure
       end
 
-      # Pull the application name from the environment and use it to set some of the Weblogic config values
+      # Pull the application name from the environment and use it to set some of the Payara config values
       def configure_names_from_env
         vcap_application_env_value = ENV['VCAP_APPLICATION']
 
@@ -344,7 +344,7 @@ module JavaBuildpack
 
       # Log a message
       def log(content)
-        JavaBuildpack::Container::Wls::WlsUtil.log(content)
+        JavaBuildpack::Container::Payara::PayaraUtil.log(content)
       end
 
     end

@@ -18,7 +18,7 @@ module JavaBuildpack
   module Container
     module Payara
 
-      # Util code for use in the Weblogic container
+      # Util code for use in the Payara container
       class PayaraUtil
         include JavaBuildpack::Container::Payara::PayaraConstants
 

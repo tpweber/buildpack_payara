@@ -366,12 +366,12 @@ module JavaBuildpack
 
         # Log the message
         def self.log(content)
-          JavaBuildpack::Container::Wls::WlsUtil.log(content)
+          JavaBuildpack::Container::Payara::PayaraUtil.log(content)
         end
 
         # Log and print the message
         def self.log_and_print(content)
-          JavaBuildpack::Container::Wls::WlsUtil.log_and_print(content)
+          JavaBuildpack::Container::Payara::PayaraUtil.log_and_print(content)
         end
       end
     end
