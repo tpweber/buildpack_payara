@@ -39,7 +39,7 @@ shared_context 'integration_helper' do
 
   before do
     rewrite_jre_repository_root(buildpack_dir + 'config/oracle_jre.yml', ENV['ORACLE_JRE_DOWNLOAD'])
-    rewrite_repository_root(buildpack_dir + 'config/weblogic.yml', ENV['WEBLOGIC_DOWNLOAD'])
+    rewrite_repository_root(buildpack_dir + 'config/payara.yml', ENV['WEBLOGIC_DOWNLOAD'])
   end
 
   after do |example|

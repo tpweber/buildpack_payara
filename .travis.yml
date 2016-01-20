@@ -1,5 +1,6 @@
 language: ruby
 rvm:
+- 2.3.0
 - 2.2.2
 - 1.9.3-p551
 before_script: if [[ $TRAVIS_RUBY_VERSION != '1.9.3-p551' || $TRAVIS_SECURE_ENV_VARS
@@ -17,4 +18,4 @@ env:
   global:
   - secure: njB2370t9TXXmvtVBB7z/aodGOI13sfeCB+Eh/Y/9oSmlnrOHav5QXJbdHKgYbQ+YhBdNfPF9KjW/+bNwi0NbGii0eiTMXw1y+3FDVfTWFFYJYdgpHVMQbZrjVET7DdRPzOmF7xdKz7KK6MhUzWIgA0o000291akDfkWSA5ZlwE= # CODECLIMATE_REPO_TOKEN
   - secure: e7LjEnsPjNdMseTlvBBSaH6/Y+/PhM6gmPmYhowXv/evzul1QkzK12Eqnh7dNKS/PotwEfc0+7P9Q6xtHlPVyv044+SzYUeug8X/uLVHWHB77me0f9OkDb3yKU/SLPj/ddGZGYntgCTQTvOjILMPMfZTZpH/tBNYIvcOUyvjmnw= # ORACLE_JRE_DOWNLOAD
-  - secure: i2+tPJ6VVHcNREohplQ/FYkGTpdOQo5KUPqt15dggGIaKiB2r+ChgahcQnf3i5O2jxEEdTdOJFQDkjWbj9+rBegEhUXQJLgoON0pdxpLMa1EF5PvWhzN/HSjZrwCygfKcERx+Nef7F85gQfJqWxQUIdbgIWNsFevkHnuQW1Y+wI= # WEBLOGIC_DOWNLOAD
+ # - secure: i2+tPJ6VVHcNREohplQ/FYkGTpdOQo5KUPqt15dggGIaKiB2r+ChgahcQnf3i5O2jxEEdTdOJFQDkjWbj9+rBegEhUXQJLgoON0pdxpLMa1EF5PvWhzN/HSjZrwCygfKcERx+Nef7F85gQfJqWxQUIdbgIWNsFevkHnuQW1Y+wI= # ???WEBLOGIC_DOWNLOAD

@@ -69,7 +69,7 @@ module JavaBuildpack
           java_opts << jvm_default_map['other_jvm_opts']
 
           # Set the server listen port using the $PORT argument set by the warden container
-          java_opts.add_system_property 'weblogic.ListenPort', '$PORT'
+          java_opts.add_system_property 'payara.ListenPort', '$PORT'
         end
 
         # Check whether to start in Wlx Mode that would disable JMS, EJB and JCA
