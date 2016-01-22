@@ -37,6 +37,7 @@ module JavaBuildpack
         # Do the installation
         def install
           expand_start_time = Time.now
+          log("PayaraInstaller.install: start_time -> #{expand_start_time}")
 
           FileUtils.rm_rf @payara_sandbox_root
           FileUtils.mkdir_p @payara_sandbox_root
