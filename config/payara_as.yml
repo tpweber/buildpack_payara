@@ -20,7 +20,7 @@
 
 version: 4.1.+
 #repository_root: "http://12.1.1.1:7777/fileserver/wls"
-repository_root: "https://bitbucket.org/tpweber/abcdef/src/df0508a38c5896e89f18253694297878055270c7/payara"
+repository_root: "https://raw.githubusercontent.com/tpweber/abcdef/master/payara"
 
 # prefer_app_config - Use the App bundled configs over the buildpack bundled configs?
 # If set to true, all configs and scripts packaged with the app bundle will be used for domain and server creation.

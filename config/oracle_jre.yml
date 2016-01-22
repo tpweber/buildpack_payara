@@ -21,7 +21,7 @@
 ---
 jre:
   version: 1.8.0_+
-  repository_root: "https://bitbucket.org/tpweber/abcdef/src/df0508a38c5896e89f18253694297878055270c7/oracle-jre"
+  repository_root: "https://raw.githubusercontent.com/tpweber/abcdef/master/oracle-jre"
 memory_calculator:
   version: 2.+
   repository_root: ! '{default.repository.root}/memory-calculator/{platform}/{architecture}'
