@@ -27,6 +27,11 @@ module JavaBuildpack
           @droplet           = installation_map['droplet']
           @payara_sandbox_root  = installation_map['payara_sandbox_root']
           @config_cache_root = installation_map['config_cache_root']
+
+          log("PayaraInstaller.initialize: @input_file -> #{input_file}")
+          log("PayaraInstaller.initialize: @droplet -> #{@droplet}")
+          log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
         end
 
         # Do the installation
