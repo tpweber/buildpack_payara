@@ -1,5 +1,5 @@
 ####################################
-# Base WLS Domain Creation script  #
+# Base Domain Creation script  #
 ####################################
 
 from jarray import array
@@ -10,7 +10,6 @@ from java.util import Properties
 from java.lang import Exception
 import re
 import ConfigParser
-
 
 
 
@@ -32,9 +31,10 @@ def getConfigSectionMap(config, section):
     return dict1
 
 def loadGlobalProp(domainConfig):
-   global WL_HOME, SERVER_NAME, DOMAIN, DOMAIN_PATH, DOMAIN_NAME
+   global PAYARA_HOME, SERVER_NAME, DOMAIN, DOMAIN_PATH, DOMAIN_NAME
 
    WL_HOME     = str(domainConfig.get('wlsHome'))
+   print ""
    DOMAIN_PATH = str(domainConfig.get('domainPath'))
 
    SERVER_NAME = 'myserver'
@@ -471,7 +471,7 @@ def configureDomain(domainConfigProps):
       createDataSource(datasourceConfig, targetServer)
 
       # Check if the Datasource is non-XA and uses None or One Phase commit
-      # And marked with use_for_tlog true 
+      # And marked with use_for_tlog true
       # Use that as tlog jdbc store
       xaProtocol = str(datasourceConfig.get('xaProtocol'))
       if ( 'true' == str(datasourceConfig.get('use_for_tlog')) and ( 'None' == xaProtocol or 'OnePhaseCommit' == xaProtocol or '' == xaProtocol ) ):
@@ -485,7 +485,7 @@ def configureDomain(domainConfigProps):
     elif (sectionName.startswith("Foreign")):
       foreignJmsConfig = getConfigSectionMap(domainConfigProps, sectionName)
       createForeignJMSResources(foreignJmsConfig, targetServer)
-  
+
   # Associate the TLog Store Datasource with the Server
   if (tlogDataSource != ''):
     configureTLogs(tlogDataSource, targetServer)

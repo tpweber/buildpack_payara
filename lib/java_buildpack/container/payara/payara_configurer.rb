@@ -39,6 +39,23 @@ module JavaBuildpack
           @payara_domain_path          = configuration_map['payara_domain_path']
           @payara_domain_yaml_config   = configuration_map['payara_domain_yaml_config']
           @payara_domain_config_script = configuration_map['payara_domain_config_script']
+
+          log("initialize: @app_name -> #{@app_name}")
+          log("initialize: @application -> #{@application}")
+          log("initialize: @app_services_config -> #{@app_services_config }")
+          log("initialize: @app_src_path -> #{@app_src_path  }")
+          log("initialize: @domain_name -> #{@domain_name}")
+          log("initialize: @domain_home -> #{@domain_home}")
+          log("initialize: @server_name -> #{@server_name}")
+          log("initialize: @droplet -> #{@droplet}")
+          log("initialize: @java_home -> #{@java_home }")
+          log("initialize: @config_cache_root -> #{@config_cache_root}")
+          log("initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("initialize: @payara_home -> #{@payara_home}")
+          log("initialize: @payara_install -> #{@payara_install}")
+          log("initialize: @payara_domain_path -> #{@payara_domain_path}")
+          log("initialize: @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+          log("initialize: @payara_domain_config_script -> #{@payara_domain_config_script}")
         end
 
         # Configure Payara

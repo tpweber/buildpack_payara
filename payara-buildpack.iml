@@ -268,6 +268,8 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.3.0" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.8.3, RVM: ruby-2.3.0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v10.4.2, RVM: ruby-2.3.0) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="4" string0="$MODULE_DIR$/lib" string1="$MODULE_DIR$/spec" string2="$MODULE_DIR$/bin" string3="$MODULE_DIR$/spec/bin" />

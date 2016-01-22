@@ -196,7 +196,7 @@ module JavaBuildpack
         end
 
         domain_configuration = YAML.load_file(@payara_domain_yaml_config)
-        log("Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
+        log("load: Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
 
         @domain_config = domain_configuration['Domain']
         log("load: @domain_config -> #{@domain_config}")

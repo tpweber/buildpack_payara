@@ -1,0 +1,5 @@
+---
+Domain:
+  wlsUser: weblogic
+  wlsPasswd: welcome1
+  consoleEnabled: true
