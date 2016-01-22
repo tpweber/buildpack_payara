@@ -199,6 +199,7 @@ module JavaBuildpack
         log("Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
 
         @domain_config = domain_configuration['Domain']
+        log("load: @domain_config -> #{@domain_config}")
 
         # Parse environment variable VCAP_APPLICATION to
         # configure the app, domain and server names
@@ -211,6 +212,13 @@ module JavaBuildpack
         @bin_home  = @payara_domain_path + @domain_name
         @domain_home  = @payara_domain_path + @domain_name
         @app_src_path = @application.root
+
+        log("load: @bin_home -> #{@bin_home}")
+        log("load: @domain_home -> #{@domain_home}")
+        log("load: @app_src_path -> #{@app_src_path}")
+        log("load: @app_name -> #{@app_name}")
+        log("load: @domain_name -> #{@domain_name}")
+        log("load: @server_name -> #{@server_name}")
 
         domain_configuration || {}
       end
