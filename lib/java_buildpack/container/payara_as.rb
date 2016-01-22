@@ -52,6 +52,8 @@ module JavaBuildpack
             candidate_version.check_size(3)
           end
 
+          log("@payara_version -> #{@payara_version}")
+
           @prefer_app_config       = @configuration[PREFER_APP_CONFIG]
           @start_in_wlx_mode       = @configuration[START_IN_WLX_MODE]
           @prefer_root_web_context = @configuration[PREFER_ROOT_WEB_CONTEXT]
@@ -59,22 +61,30 @@ module JavaBuildpack
           # Proceed with install under the APP-INF or WEB-INF folders
 
           if app_inf?
-            @payara_sandbox_root = @droplet.root + 'APP-INF/wlsInstall'
+            @payara_sandbox_root = @droplet.root + 'APP-INF'
             # Possible the APP-INF folder got stripped out as it didnt contain anything
             create_sub_folder(@droplet.root, 'APP-INF')
+            log("app_inf? -> #{app_inf?}")
           else
             # Treat as webapp by default
-            @payara_sandbox_root = @droplet.root + 'WEB-INF/wlsInstall'
+            @payara_sandbox_root = @droplet.root + 'WEB-INF'
             # Possible the WEB-INF folder got stripped out as it didnt contain anything
             create_sub_folder(@droplet.root, 'WEB-INF')
           end
+
+          log("@payara_sandbox_root -> #{@payara_sandbox_root}")
 
           @payara_domain_path          = @payara_sandbox_root + PAYARA_DOMAIN_PATH
           @app_config_cache_root       = @application.root + APP_PAYARA_CONFIG_CACHE_DIR
           @app_services_config         = @application.services
 
+          log("@payara_domain_path -> #{@payara_domain_path}")
+          log("@app_config_cache_root -> #{@app_config_cache_root}")
+          log("@app_services_config -> #{@app_services_config}")
+
           # Root of Buildpack bundled config cache - points to <payara-buildpack>/resources/payara
           @buildpack_config_cache_root = BUILDPACK_CONFIG_CACHE_DIR
+          log("@buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
 
           load
         else
