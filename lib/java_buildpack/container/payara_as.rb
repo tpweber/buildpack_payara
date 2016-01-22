@@ -176,6 +176,9 @@ module JavaBuildpack
         # If there is no Domain Config yaml file, copy over the buildpack bundled basic domain configs.
         # Create the appconfig_cache_root '.wls' directory under the App Root as needed
         unless @payara_domain_yaml_config
+          log("load: @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+          log("load: @app_config_cache_root -> #{@app_config_cache_root}")
+          log("load: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
           system "mkdir #{@app_config_cache_root} 2>/dev/null; " \
                   " cp  #{@buildpack_config_cache_root}/*.yml #{@app_config_cache_root}"
 
@@ -228,6 +231,9 @@ module JavaBuildpack
           @app_config_cache_root  = war_config_cache_root
           @payara_domain_yaml_config = Dir.glob("#{war_config_cache_root}/*.yml")[0]
 
+          log("locate_domain_config_by_app_type: web_inf @app_config_cache_root -> #{@app_config_cache_root}")
+          log("locate_domain_config_by_app_type: web_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+
         elsif app_inf?
           ear_config_cache_root = @application.root + 'APP-INF' + APP_PAYARA_CONFIG_CACHE_DIR
           # If no config cache directory exists under the APP-INF,
@@ -240,7 +246,10 @@ module JavaBuildpack
 
           @app_config_cache_root  = ear_config_cache_root
           @payara_domain_yaml_config = Dir.glob("#{ear_config_cache_root}/*.yml")[0]
+          log("locate_domain_config_by_app_type: app_inf @app_config_cache_root -> #{@app_config_cache_root}")
+          log("locate_domain_config_by_app_type: app_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
         end
+
       end
 
       # Determine which configurations should be used for driving the domain creation - App or buildpack bundled
@@ -265,6 +274,7 @@ module JavaBuildpack
           'config_cache_root' => @buildpack_config_cache_root
         }
 
+        log("Downloding Payara, Version[#{@payara_version}] from #{@payara_uri}")
         download(@payara_version, @payara_uri) do |input_file|
           payara_installer = JavaBuildpack::Container::Payara::PayaraInstaller.new(input_file, installation_map)
           result_map    = payara_installer.install
