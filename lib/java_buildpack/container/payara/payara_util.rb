@@ -24,7 +24,7 @@ module JavaBuildpack
 
         # Log the message
         def self.log(content)
-          logger.debug { content + NEWLINE }
+          logger.info { content + NEWLINE }
         end
 
         # Log and print the message

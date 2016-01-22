@@ -24,6 +24,7 @@ module JavaBuildpack
 
         # return true if the application should be run on Payara
         def self.detect(application)
+          log("Detecting #{application}")
           search_path        = (application.root).to_s + '/**/glassfish*xml'
           payara_config_present = Dir.glob(search_path).length > 0
 
