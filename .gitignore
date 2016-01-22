@@ -1,5 +1,7 @@
-.idea/tasks.xml
-.idea/workspace.xml
+/.idea
+/.bundle
+/payara-buildpack.iml
+/out
 .yardoc
 build/
 coverage
