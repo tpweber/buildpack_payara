@@ -63,17 +63,11 @@ module JavaBuildpack
         # Configure Payara
         def configure
           configure_start_time = Time.now
-          print "-----> Configuring Payara domain under #{@payara_sandbox_root}\n"
-
-          @payara_home = File.dirname(Dir.glob("#{@payara_install}/**/weblogic.jar")[0]) + '/../..'
-          unless @payara_home
-            log_and_print("Problem with install, check captured install log output at #{@payara_install}/install.log")
-          end
-
           log("PayaraConfigurer.configure: @payara_install: #{@payara_install}")
           log("PayaraConfigurer.configure: @payara_home: #{@payara_home}")
           log("PayaraConfigurer.configure: @payara_asadmin -> #{@payara_asadmin}")
           log("PayaraConfigurer.configure: @application.root: #{@application.root}")
+          print "-----> Configuring Payara domain under #{@payara_home}\n"
 
           # Save the location of the Payara Domain template jar file - this varies across releases
           # 10.3.6 - under ./wlserver/common/templates/domains/wls.jar
