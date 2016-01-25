@@ -70,33 +70,37 @@ module JavaBuildpack
           log("PayaraConfigurer.configure: @payara_asadmin -> #{@payara_asadmin}")
           log("PayaraConfigurer.configure: @application.root: #{@application.root}")
           log("PayaraConfigurer.configure: @java_home: #{@java_home}")
-          log("PayaraConfigurer.configure: @java_binary -> #{@java_binary }")
+          log("PayaraConfigurer.configure: @java_binary -> #{@java_binary}")
+          log("PayaraConfigurer.configure: @domain_name -> #{@domain_name}")
           print "-----> Configuring Payara domain under #{@payara_home}\n"
 
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
 
-          # Save the location of the Payara Domain template jar file - this varies across releases
-          # 10.3.6 - under ./wlserver/common/templates/domains/wls.jar
-          # 12.1.2 - under ./wlserver/common/templates/wls/wls.jar
-          #@payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
+          commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
+          commandDeleteDomain << "export AS_JAVA=#{@java_home};"
+          commandDeleteDomain << "export java=#{@java_binary};"
+          commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
+          commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
+          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
+          system "#{commandDeleteDomain}"
 
-          command = "export JAVA_HOME=#{@java_home};"
-          command << "export AS_JAVA=#{@java_home};"
-          command << "export java=#{@java_binary};"
-          command << "${AS_JAVA}/bin/java -version;"
-          command << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain domainTest"
-          system "#{command}"
+          commandCreateDomain = "export JAVA_HOME=#{@java_home};"
+          commandCreateDomain << "export AS_JAVA=#{@java_home};"
+          commandCreateDomain << "export java=#{@java_binary};"
+          commandCreateDomain << "${AS_JAVA}/bin/java -version;"
+          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
+          system "#{commandCreateDomain}"
 
           log("PayaraConfigurer.configure: command: #{command}")
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
-          update_domain_config_template(@payara_domain_yaml_config)
+          #update_domain_config_template(@payara_domain_yaml_config)
 
           # Modify Payara commEnv Script to use -server rather than -client
           # Modify Payara commEnv Script to set MW_HOME variable as this is used in 10.3.x but not set within it.
-          modify_comm_env
-          log_and_print('Updated the commEnv.sh script to point to correct BEA_HOME, MW_HOME and WL_HOME')
+          #modify_comm_env
+          #log_and_print('Updated the commEnv.sh script to point to correct BEA_HOME, MW_HOME and WL_HOME')
 
           log_buildpack_config
           log_domain_config
@@ -270,21 +274,20 @@ module JavaBuildpack
           log("  App Source Directory       : #{@app_src_path}")
           log("  Using App bundled Config?  : #{@prefer_app_config}")
           log("  Domain creation script     : #{@payara_domain_config_script}")
-          log("  Input PAYARA Yaml Configs     : #{@payara_complete_domain_configs_yml}")
-          log("  WLST Input Config          : #{@payara_complete_domain_configs_props}")
+          log("  Input PAYARA Yaml Configs  : #{@payara_complete_domain_configs_yml}")
           log('--------------------------------------')
         end
 
         def log_buildpack_config
           log('Configurations for Java PAYARA Buildpack')
           log('--------------------------------------')
-          log("  Sandbox Root  : #{@payara_sandbox_root} ")
-          log("  JAVA_HOME     : #{@java_home} ")
-          log("  PAYARA_INSTALL   : #{@payara_install} ")
-          log("  PAYARA_HOME      : #{@payara_home}")
-          log("  DOMAIN_NAME   : #{@domain_name}")
-          log("  SERVER_NAME   : #{@server_name}")
-          log("  DOMAIN HOME   : #{@domain_home}")
+          log("  Sandbox Root   : #{@payara_sandbox_root} ")
+          log("  JAVA_HOME      : #{@java_home} ")
+          log("  PAYARA_INSTALL : #{@payara_install} ")
+          log("  PAYARA_HOME    : #{@payara_home}")
+          log("  DOMAIN_NAME    : #{@domain_name}")
+          log("  SERVER_NAME    : #{@server_name}")
+          log("  DOMAIN HOME    : #{@domain_home}")
           log('--------------------------------------')
         end
 
