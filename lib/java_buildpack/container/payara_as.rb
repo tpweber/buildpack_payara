@@ -158,11 +158,13 @@ module JavaBuildpack
         log("Payadra_AS.release: @payara_home: #{@payara_home}")
         log("Payadra_AS.release: @payara_asadmin: #{@payara_asadmin}")
         start_domain_payara
-        deploy_war_to_domain
+        return deploy_war_to_domain
 
       end
 
       def deploy_war_to_domain
+        log("Payara_AS.commandDeployWar: deploying war: #{@app_name}")
+
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
@@ -174,9 +176,11 @@ module JavaBuildpack
         system "#{commandDeployWar}"
 
         log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
+        return commandDeployWar
       end
 
       def start_domain_payara
+        log("Payara_AS.start_domain_payara: stating domain: #{@domain_name}")
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
