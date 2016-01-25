@@ -171,7 +171,7 @@ module JavaBuildpack
         # or the buildpack bundled configs
 
         # Locate the domain config either under APP-INF or WEB-INF location
-        locate_domain_config_by_app_type
+        # locate_domain_config_by_app_type
 
         # During development when the domain structure is still in flux, use App bundled config to test/tweak the
         # domain. Once the domain structure is finalized, save the configs as part of the buildpack and then only pass
@@ -181,6 +181,7 @@ module JavaBuildpack
 
         # If there is no Domain Config yaml file, copy over the buildpack bundled basic domain configs.
         # Create the appconfig_cache_root '.wls' directory under the App Root as needed
+=begin
         unless @payara_domain_yaml_config
           log("Payara_AS.load: : @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
           log("Payara_AS.load: @app_config_cache_root -> #{@app_config_cache_root}")
@@ -191,25 +192,30 @@ module JavaBuildpack
           @payara_domain_yaml_config = Dir.glob("#{@app_config_cache_root}/*.yml")[0]
           log('Payara_AS.load: No Domain Configuration yml file found, reusing one from the buildpack bundled template!!')
         end
+=end
 
         # For now, expecting only one script to be run to create the domain
-        @payara_domain_config_script = Dir.glob("#{@app_config_cache_root}/#{PAYARA_SCRIPT_CACHE_DIR}/*.py")[0]
+        #@payara_domain_config_script = Dir.glob("#{@app_config_cache_root}/#{PAYARA_SCRIPT_CACHE_DIR}/*.py")[0]
 
         # If there is no Domain Script, use the buildpack bundled script.
+=begin
         unless @payara_domain_config_script
           @payara_domain_config_script = Dir.glob("#{@buildpack_config_cache_root}/#{PAYARA_SCRIPT_CACHE_DIR}/*.py")[0]
           log('Payara_AS.load: No Domain creation script found, reusing one from the buildpack bundled template!!')
         end
+=end
 
+=begin
         domain_configuration = YAML.load_file(@payara_domain_yaml_config)
         log("Payara_AS.load: Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
 
         @domain_config = domain_configuration['Domain']
         log("Payara_AS.load: @domain_config -> #{@domain_config}")
+=end
 
         # Parse environment variable VCAP_APPLICATION to
         # configure the app, domain and server names
-        configure_names_from_env
+        # configure_names_from_env
 
         @app_name    = 'testApp' unless @app_name
         @domain_name = 'cfDomain' unless @domain_name
