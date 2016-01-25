@@ -94,7 +94,6 @@ module JavaBuildpack
 
           @java_home   = ''
           @java_binary   = ''
-          @payara_install = ''
           @payara_home = ''
           @payara_asadmin = ''
 
