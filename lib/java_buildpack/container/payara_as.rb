@@ -151,7 +151,9 @@ module JavaBuildpack
         log("Payadra_AS.release: @payara_home: #{@payara_home}")
         log("Payadra_AS.release: @payara_asadmin: #{@payara_asadmin}")
         start_domain_script = start_domain_payara
+        log("Payadra_AS.release: start_domain_script: #{start_domain_script}")
         deploy_war_script = deploy_war_to_domain
+        log("Payadra_AS.release: deploy_war_script: #{deploy_war_script}")
 
         [
           @droplet.java_home.as_env_var,
@@ -187,9 +189,10 @@ module JavaBuildpack
         commandStartDomain << "export java=#{@java_binary};"
         commandStartDomain << "export AS_ADMIN_PASSWORDFILE=;"
         commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
-        system "#{commandStartDomain}"
+        #system "#{commandStartDomain}"
 
         log("Payara_AS.start_domain_payara: commandStartDomain: #{commandStartDomain}")
+        return commandStartDomain
       end
 
       private
