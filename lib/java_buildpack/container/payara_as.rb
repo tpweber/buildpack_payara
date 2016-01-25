@@ -60,7 +60,9 @@ module JavaBuildpack
 
           # Proceed with install under the APP-INF or WEB-INF folders
 
-          @payara_home = @application.root + PAYARA_ROOT_ELEMENT
+          @payara_install = @application.root
+          log("Payara_AS.initialize: @payara_install -> #{@payara_install}")
+          @payara_home = @payara_install + PAYARA_ROOT_ELEMENT
           log("Payara_AS.initialize: @payara_home -> #{@payara_home}")
 
           if app_inf?
