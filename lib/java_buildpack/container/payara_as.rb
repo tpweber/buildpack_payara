@@ -158,7 +158,7 @@ module JavaBuildpack
         commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
         system "#{commandDeployWar}"
 
-        log("Payara_AS.commandDeployWar: commandDeployWar: #{commandStartDomain}")
+        log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
       end
 
       def start_domain_payara

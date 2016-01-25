@@ -180,6 +180,15 @@ module JavaBuildpack
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
 
+          commandStopDomain = "export JAVA_HOME=#{@java_home};"
+          commandStopDomain << "export AS_JAVA=#{@java_home};"
+          commandStopDomain << "export java=#{@java_binary};"
+          commandStopDomain << "export AS_ADMIN_PASSWORDFILE=;"
+          commandStopDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt stop-domain --force=true #{@domain_name} > #{@payara_home}/domainCreation.log"
+          system "#{commandStopDomain}"
+
+          log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandStopDomain}")
+
           commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
           commandDeleteDomain << "export AS_JAVA=#{@java_home};"
           commandDeleteDomain << "export java=#{@java_binary};"
