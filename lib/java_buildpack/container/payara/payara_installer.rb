@@ -44,6 +44,9 @@ module JavaBuildpack
 
           input_file_path = File.absolute_path(@input_file.path)
 
+          log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
+          log("PayaraInstaller.install: @droplet.root -> #{@droplet.root}")
+
           print "-----> Installing Payara to #{@droplet.sandbox.relative_path_from(@droplet.root)}"\
                               " using downloaded file: #{input_file_path}\n"
 
@@ -70,7 +73,7 @@ module JavaBuildpack
         PAYARA_ORA_INVENTORY_TEMPLATE = 'ORACLE_INVENTORY_INSTALL_PATH'.freeze
         PAYARA_ORA_INV_INSTALL_PATH   = '/tmp/payaraOraInstallInventory'.freeze
 
-        log("PayaraInstaller.install: start_time -> #{expand_start_time}")
+        log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
 
         def install_using_zip(zipFile)
           log("PayaraInstaller.install_using_zip: #{zipFile}")

@@ -33,7 +33,7 @@ module JavaBuildpack
         CLIENT_VM                  = '-client'.freeze
 
         # Name of the Payara configuration script
-        PAYARA_CONFIGURE_SCRIPT       = 'configure.sh'.freeze
+        PAYARA_CONFIGURE_SCRIPT       = 'bin/asadmin'.freeze
 
         # Prefer App Bundled Config or Buildpack bundled Config
         PREFER_APP_CONFIG          = 'prefer_app_config'.freeze

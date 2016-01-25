@@ -61,15 +61,16 @@ module JavaBuildpack
           # Proceed with install under the APP-INF or WEB-INF folders
 
           if app_inf?
-            @payara_sandbox_root = @droplet.root + 'glassfish'
+            @payara_sandbox_root = @droplet.root
             # Possible the APP-INF folder got stripped out as it didnt contain anything
-            create_sub_folder(@droplet.root, 'glassfish')
+            #create_sub_folder(@droplet.root, 'glassfish')
             log("app_inf? -> #{app_inf?}")
           else
             # Treat as webapp by default
-            @payara_sandbox_root = @droplet.root + 'glassfish'
+            @payara_sandbox_root = @droplet.root
+            # + 'glassfish'
             # Possible the WEB-INF folder got stripped out as it didnt contain anything
-            create_sub_folder(@droplet.root, 'glassfish')
+            #create_sub_folder(@droplet.root, 'glassfish')
           end
 
           log("@payara_sandbox_root -> #{@payara_sandbox_root}")
