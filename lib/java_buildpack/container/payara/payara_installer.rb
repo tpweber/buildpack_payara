@@ -90,6 +90,9 @@ module JavaBuildpack
           @java_home        = File.dirname(java_binary) + '/..'
           @payara_install_path = File.dirname(configure_script)
 
+          log_and_print("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
+          log_and_print("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
+
           system "/bin/chmod +x #{configure_script}"
 
           # Run configure.sh so the actual files are unpacked fully and paths are configured correctly
