@@ -270,6 +270,8 @@ module JavaBuildpack
           java_home
         end
 
+        public
+
         def log(content)
           JavaBuildpack::Container::Payara::PayaraUtil.log(content)
         end
