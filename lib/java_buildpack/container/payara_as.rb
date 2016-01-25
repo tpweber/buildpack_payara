@@ -109,18 +109,18 @@ module JavaBuildpack
       def compile
         download_and_install_payara
         configure
-        @droplet.additional_libraries.link_to app_web_inf_lib
+        #@droplet.additional_libraries.link_to app_web_inf_lib
 
         # Don't modify context root for wars within Ear as there can be multiple wars.
         # Modify the context root to '/' in case of war
         # and prefer_root_web_context is enabled in buildpack payara_as.yml config
-        modify_context_root_for_war if web_inf? && @prefer_root_web_context
+        # modify_context_root_for_war if web_inf? && @prefer_root_web_context
       end
 
       # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        monitor_agent  = JavaBuildpack::Container::Payara::MonitorAgent.new(@application)
-        monitor_script = monitor_agent.monitor_script
+        #monitor_agent  = JavaBuildpack::Container::Payara::MonitorAgent.new(@application)
+        #monitor_script = monitor_agent.monitor_script
 
         releaser             = JavaBuildpack::Container::Payara::PayaraReleaser.new(@application, @droplet, @domain_home,
                                                                               @server_name, @start_in_wlx_mode)

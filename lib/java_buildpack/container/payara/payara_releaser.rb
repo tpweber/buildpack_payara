@@ -33,6 +33,12 @@ module JavaBuildpack
           @server_name       = server_name
           @start_in_wlx_mode = start_in_wlx_mode
 
+          log("PayaraReleaser.initialize: @application -> #{@application}")
+          log("PayaraReleaser.initialize: @domain_home -> #{@domain_home}")
+          log("PayaraReleaser.initialize: @server_name -> #{@server_name}")
+          log("PayaraReleaser.initialize: @droplet -> #{@droplet}")
+          log("PayaraReleaser.initialize: @droplet.root -> #{@droplet.root}")
+
           create_scripts
         end
 
@@ -49,13 +55,14 @@ module JavaBuildpack
         # 2. Sleep for a predetermined period so users can download files if needed
 
         def create_scripts
-          system "/bin/cp #{START_STOP_HOOKS_SRC_PATH}/* #{@application.root}/"
-          system "chmod +x #{@application.root}/*.sh"
+          log("PayaraReleaser.create_scripts: @application -> #{@application}")
+          #system "/bin/cp #{START_STOP_HOOKS_SRC_PATH}/* #{@application.root}/"
+          #system "chmod +x #{@application.root}/*.sh"
 
-          @pre_start_script = Dir.glob("#{@application.root}/#{PRE_START_SCRIPT}")[0]
-          @post_stop_script = Dir.glob("#{@application.root}/#{POST_STOP_SCRIPT}")[0]
+          #@pre_start_script = Dir.glob("#{@application.root}/#{PRE_START_SCRIPT}")[0]
+          #@post_stop_script = Dir.glob("#{@application.root}/#{POST_STOP_SCRIPT}")[0]
 
-          modify_pre_start_script
+          #modify_pre_start_script
         end
 
         # The Pre-Start script

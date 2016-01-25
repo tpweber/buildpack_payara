@@ -75,38 +75,6 @@ module JavaBuildpack
           log("PayaraConfigurer.configure: @payara_domain_path -> #{@payara_domain_path}")
           print "-----> Configuring Payara domain under #{@payara_home}\n"
 
-=begin
-          commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
-          system "#{commandPW}"
-
-          commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
-          commandDeleteDomain << "export AS_JAVA=#{@java_home};"
-          commandDeleteDomain << "export java=#{@java_binary};"
-          commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
-          commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
-          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
-          system "#{commandDeleteDomain}"
-
-          log("PayaraConfigurer.configure: commandDeleteDomain: #{commandDeleteDomain}")
-
-          commandCreateDomain = "export JAVA_HOME=#{@java_home};"
-          commandCreateDomain << "export AS_JAVA=#{@java_home};"
-          commandCreateDomain << "export java=#{@java_binary};"
-          commandCreateDomain << "${AS_JAVA}/bin/java -version;"
-          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
-          system "#{commandCreateDomain}"
-
-          log("PayaraConfigurer.configure: commandCreateDomain: #{commandCreateDomain}")
-=end
-
-          # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
-          #update_domain_config_template(@payara_domain_yaml_config)
-
-          # Modify Payara commEnv Script to use -server rather than -client
-          # Modify Payara commEnv Script to set MW_HOME variable as this is used in 10.3.x but not set within it.
-          #modify_comm_env
-          #log_and_print('Updated the commEnv.sh script to point to correct BEA_HOME, MW_HOME and WL_HOME')
-
           log_buildpack_config
           log_domain_config
 
@@ -250,11 +218,13 @@ module JavaBuildpack
           commandListDomains << "#{@payara_asadmin} --user admin list-domains > #{@payara_home}/domains.txt"
           system "#{commandListDomains}"
 
+          log("PayaraConfigurer.check_domain: commandListDomains: #{commandListDomains}")
+
           domains = File.read("#{@payara_home}/domains.txt")
           log("PayaraConfigurer.check_domain: domains: #{domains}")
           included = domains.include? "#{@domain_name}"
           if included
-            log("PayaraConfigurer.check_domain: domain #{@domain_name} created.")
+            log("PayaraConfigurer.check_domain: domain #{@domain_name} successfully created.")
           else
             log_and_print("Problem with domain creation for #{@domain_name}!")
             system "/bin/cat #{@payara_home}/domainCreation.log"
