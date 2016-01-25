@@ -75,7 +75,8 @@ module JavaBuildpack
           # 12.1.2 - under ./wlserver/common/templates/wls/wls.jar
           #@payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
 
-          command = "export JAVA_HOME=#{@java_home}"
+          command = "export JAVA_HOME=#{@java_home};"
+          command = "export AS_JAVA=#{@java_home}/bin/java;"
           system "#{command}"
           system "#{@payara_asadmin} -?"
 
