@@ -125,9 +125,10 @@ module JavaBuildpack
           @java_home = check_and_reset_java_home_for_non_linux(@java_home)
           # save_middleware_home_in_configure_script(configure_script, @payara_install_path, @java_home)
 
-          command = "export JAVA_HOME=#{@java_home}; "
+          command = "export JAVA_HOME=#{@java_home} > #{@payara_sandbox_root}/install.log"
           #command << " export MW_HOME=#{@payara_install_path}; "
-          command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
+          #command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
+          log("PayaraInstaller.install_using_zip: JAVA_HOME: #{@java_home}")
 
           system "#{command}"
 
