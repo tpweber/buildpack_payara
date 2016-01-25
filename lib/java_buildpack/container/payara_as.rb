@@ -124,14 +124,18 @@ module JavaBuildpack
 
         releaser             = JavaBuildpack::Container::Payara::PayaraReleaser.new(@application, @droplet, @domain_home,
                                                                               @server_name, @start_in_wlx_mode)
-        pre_start_script     = releaser.pre_start
-        post_shutdown_script = releaser.post_shutdown
+        #pre_start_script     = releaser.pre_start
+        #post_shutdown_script = releaser.post_shutdown
 
+=begin
         [
           @droplet.java_home.as_env_var,
           "USER_MEM_ARGS=\"#{@droplet.java_opts.join(' ')}\"",
           "sleep 10; #{pre_start_script}; #{monitor_script} ; #{@domain_home}/startWebLogic.sh; #{post_shutdown_script}"
         ].flatten.compact.join(' ')
+=end
+
+
       end
 
       private
