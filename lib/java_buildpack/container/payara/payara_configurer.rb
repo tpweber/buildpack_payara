@@ -206,7 +206,6 @@ module JavaBuildpack
             commandDeleteDomain << "export AS_JAVA=#{@java_home};"
             commandDeleteDomain << "export java=#{@java_binary};"
             commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
-            commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
             commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
             system "#{commandDeleteDomain}"
 
@@ -216,7 +215,6 @@ module JavaBuildpack
           commandCreateDomain = "export JAVA_HOME=#{@java_home};"
           commandCreateDomain << "export AS_JAVA=#{@java_home};"
           commandCreateDomain << "export java=#{@java_binary};"
-          commandCreateDomain << "${AS_JAVA}/bin/java -version;"
           commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
           system "#{commandCreateDomain}"
 

@@ -92,6 +92,12 @@ module JavaBuildpack
           @buildpack_config_cache_root = BUILDPACK_CONFIG_CACHE_DIR
           log("Payara_AS.initialize: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
 
+          @java_home   = nil
+          @java_binary   = nil
+          @payara_install = nil
+          @payara_home = nil
+          @payara_asadmin = nil
+
           load
         else
           @payara_version = nil
