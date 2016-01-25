@@ -96,7 +96,7 @@ module JavaBuildpack
           filesDropletRoot = Dir.entries("#{@droplet.root}")
           log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesDropletRoot}")
           filesPayaraHome = Dir.entries("#{@payara_home}")
-          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesPayaraHome}")
+          log("PayaraInstaller.install_using_zip: @payara_home.files: #{filesPayaraHome}")
           log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
           oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
@@ -115,7 +115,7 @@ module JavaBuildpack
 
           system "/bin/chmod +x #{configure_script}"
 
-          log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
+          log("PayaraInstaller.install_using_zip: mode changed for @payara_install_path: #{@payara_install_path}")
 
           # Run configure.sh so the actual files are unpacked fully and paths are configured correctly
           # Need to use pipeline as we need to provide inputs to scripts downstream
@@ -280,6 +280,7 @@ module JavaBuildpack
 
         # Check whether running on non-linux machine, to pick the correct JAVA_HOME location
         def check_and_reset_java_home_for_non_linux(java_home)
+          log("PayaraInstaller.check_and_reset_java_home_for_non_linux: java_home: #{java_home}")
           unless linux?
             log_and_print('Warning!!! Running on Mac or other non-linux flavor, cannot use linux java binaries ' \
                           'downloaded earlier...!!')
