@@ -180,24 +180,38 @@ module JavaBuildpack
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
 
-          commandStopDomain = "export JAVA_HOME=#{@java_home};"
-          commandStopDomain << "export AS_JAVA=#{@java_home};"
-          commandStopDomain << "export java=#{@java_binary};"
-          commandStopDomain << "export AS_ADMIN_PASSWORDFILE=;"
-          commandStopDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt stop-domain --force=true #{@domain_name} > #{@payara_home}/domainCreation.log"
-          system "#{commandStopDomain}"
+          commandListDomains = "export JAVA_HOME=#{@java_home};"
+          commandListDomains << "export AS_JAVA=#{@java_home};"
+          commandListDomains << "export java=#{@java_binary};"
+          commandListDomains << "${AS_JAVA}/bin/java -version;"
+          commandListDomains << "#{@payara_asadmin} --user admin list-domains > #{@payara_home}/domains.txt"
+          system "#{commandListDomains}"
 
-          log("PayaraConfigurer.create_domain: commandStopDomain: #{commandStopDomain}")
+          log("PayaraConfigurer.check_domain: commandListDomains: #{commandListDomains}")
 
-          commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
-          commandDeleteDomain << "export AS_JAVA=#{@java_home};"
-          commandDeleteDomain << "export java=#{@java_binary};"
-          commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
-          commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
-          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
-          system "#{commandDeleteDomain}"
+          domains = File.read("#{@payara_home}/domains.txt")
+          log("PayaraConfigurer.check_domain: domains: #{domains}")
+          included = domains.include? "#{@domain_name}"
+          if included
+            commandStopDomain = "export JAVA_HOME=#{@java_home};"
+            commandStopDomain << "export AS_JAVA=#{@java_home};"
+            commandStopDomain << "export java=#{@java_binary};"
+            commandStopDomain << "export AS_ADMIN_PASSWORDFILE=;"
+            commandStopDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt stop-domain --force=true #{@domain_name} > #{@payara_home}/domainCreation.log"
+            system "#{commandStopDomain}"
 
-          log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
+            log("PayaraConfigurer.create_domain: commandStopDomain: #{commandStopDomain}")
+
+            commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
+            commandDeleteDomain << "export AS_JAVA=#{@java_home};"
+            commandDeleteDomain << "export java=#{@java_binary};"
+            commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
+            commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
+            commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
+            system "#{commandDeleteDomain}"
+
+            log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
+          end
 
           commandCreateDomain = "export JAVA_HOME=#{@java_home};"
           commandCreateDomain << "export AS_JAVA=#{@java_home};"

@@ -145,8 +145,8 @@ module JavaBuildpack
         log("Payadra_AS.release: @payara_install: #{@payara_install}")
         log("Payadra_AS.release: @payara_home: #{@payara_home}")
         log("Payadra_AS.release: @payara_asadmin: #{@payara_asadmin}")
-      start_domain_payara
-      deploy_war_to_domain
+        start_domain_payara
+        deploy_war_to_domain
 
       end
 
@@ -386,7 +386,18 @@ module JavaBuildpack
         log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
 
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
-        configurer.configure
+        result_map    = configurer.configure
+
+        @java_home   = result_map['java_home']
+        @java_binary   = result_map['java_binary']
+        @payara_install = result_map['payara_install']
+        @payara_home = result_map['payara_home']
+        @payara_asadmin = result_map['payara_asadmin']
+        log("Payadra_AS.configure: @java_home -> #{@java_home}")
+        log("Payadra_AS.configure: @java_binary -> #{@java_binary}")
+        log("Payadra_AS.configure: @payara_install -> #{@payara_install}")
+        log("Payadra_AS.configure: @payara_home -> #{@payara_home}")
+        log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
       end
 
       # Pull the application name from the environment and use it to set some of the Payara config values
