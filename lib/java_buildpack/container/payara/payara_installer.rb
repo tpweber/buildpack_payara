@@ -42,9 +42,9 @@ module JavaBuildpack
           if not Dir.exist? @payara_sandbox_root
             #FileUtils.rm_rf @payara_sandbox_root
             FileUtils.mkdir_p @payara_sandbox_root
-            log("PayaraInstaller.initialize: created @payara_sandbox_root -> #{@payara_sandbox_root}")
+            log("PayaraInstaller.install: created @payara_sandbox_root -> #{@payara_sandbox_root}")
           end
-          log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("PayaraInstaller.install: @payara_sandbox_root -> #{@payara_sandbox_root}")
           input_file_path = File.absolute_path(@input_file.path)
 
           log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
@@ -91,10 +91,10 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
 
-          oracle_jre_path = Dir.exist?("/tmp/staged/app/.java-buildpack/oracle_jre")
-          #oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
+          #oracle_jre_path = Dir.exist?("/tmp/staged/app/.java-buildpack/oracle_jre")
+          oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
           log("PayaraInstaller.install_using_zip: oracle_jre_path: #{oracle_jre_path}")
-          java_binary = Dir.glob("#{@droplet.root}" + '/**/' + JAVA_BINARY)[0]
+          java_binary = Dir.glob("#{oracle_jre_path}" + '/**/' + JAVA_BINARY)[0]
           log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
           configure_script = Dir.glob("#{@payara_sandbox_root}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
