@@ -35,6 +35,9 @@ module JavaBuildpack
         # Name of the Payara configuration script
         PAYARA_CONFIGURE_SCRIPT       = 'bin/asadmin'.freeze
 
+        # Payara root path element
+        PAYARA_ROOT_ELEMENT = "payara41".freeze
+
         # Prefer App Bundled Config or Buildpack bundled Config
         PREFER_APP_CONFIG          = 'prefer_app_config'.freeze
 

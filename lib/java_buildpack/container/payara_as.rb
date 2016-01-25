@@ -52,7 +52,7 @@ module JavaBuildpack
             candidate_version.check_size(3)
           end
 
-          log("@payara_version -> #{@payara_version}")
+          log("Payara_AS.initialize: @payara_version -> #{@payara_version}")
 
           @prefer_app_config       = @configuration[PREFER_APP_CONFIG]
           @start_in_wlx_mode       = @configuration[START_IN_WLX_MODE]
@@ -60,32 +60,35 @@ module JavaBuildpack
 
           # Proceed with install under the APP-INF or WEB-INF folders
 
+          @payara_home = @droplet.root + '/' + PAYARA_ROOT_ELEMENT
+          log("Payara_AS.initialize: @payara_home -> #{@payara_home}")
+
           if app_inf?
-            @payara_sandbox_root = @droplet.root
+            @payara_sandbox_root = @payara_home
             # Possible the APP-INF folder got stripped out as it didnt contain anything
             #create_sub_folder(@droplet.root, 'glassfish')
-            log("app_inf? -> #{app_inf?}")
+            log("Payara_AS.initialize: app_inf? -> #{app_inf?}")
           else
             # Treat as webapp by default
-            @payara_sandbox_root = @droplet.root
+            @payara_sandbox_root = @payara_home
             # + 'glassfish'
             # Possible the WEB-INF folder got stripped out as it didnt contain anything
             #create_sub_folder(@droplet.root, 'glassfish')
           end
 
-          log("@payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("Payara_AS.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
 
           @payara_domain_path          = @payara_sandbox_root + PAYARA_DOMAIN_PATH
           @app_config_cache_root       = @application.root + APP_PAYARA_CONFIG_CACHE_DIR
           @app_services_config         = @application.services
 
-          log("@payara_domain_path -> #{@payara_domain_path}")
-          log("@app_config_cache_root -> #{@app_config_cache_root}")
-          log("@app_services_config -> #{@app_services_config}")
+          log("Payara_AS.initialize: @payara_domain_path -> #{@payara_domain_path}")
+          log("Payara_AS.initialize: @app_config_cache_root -> #{@app_config_cache_root}")
+          log("Payara_AS.initialize: @app_services_config -> #{@app_services_config}")
 
           # Root of Buildpack bundled config cache - points to <payara-buildpack>/resources/payara
           @buildpack_config_cache_root = BUILDPACK_CONFIG_CACHE_DIR
-          log("@buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
+          log("Payara_AS.initialize: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
 
           load
         else
@@ -177,14 +180,14 @@ module JavaBuildpack
         # If there is no Domain Config yaml file, copy over the buildpack bundled basic domain configs.
         # Create the appconfig_cache_root '.wls' directory under the App Root as needed
         unless @payara_domain_yaml_config
-          log("load: @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
-          log("load: @app_config_cache_root -> #{@app_config_cache_root}")
-          log("load: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
+          log("Payara_AS.load: : @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+          log("Payara_AS.load: @app_config_cache_root -> #{@app_config_cache_root}")
+          log("Payara_AS.load: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
           system "mkdir #{@app_config_cache_root} 2>/dev/null; " \
                   " cp  #{@buildpack_config_cache_root}/*.yml #{@app_config_cache_root}"
 
           @payara_domain_yaml_config = Dir.glob("#{@app_config_cache_root}/*.yml")[0]
-          log('No Domain Configuration yml file found, reusing one from the buildpack bundled template!!')
+          log('Payara_AS.load: No Domain Configuration yml file found, reusing one from the buildpack bundled template!!')
         end
 
         # For now, expecting only one script to be run to create the domain
@@ -193,14 +196,14 @@ module JavaBuildpack
         # If there is no Domain Script, use the buildpack bundled script.
         unless @payara_domain_config_script
           @payara_domain_config_script = Dir.glob("#{@buildpack_config_cache_root}/#{PAYARA_SCRIPT_CACHE_DIR}/*.py")[0]
-          log('No Domain creation script found, reusing one from the buildpack bundled template!!')
+          log('Payara_AS.load: No Domain creation script found, reusing one from the buildpack bundled template!!')
         end
 
         domain_configuration = YAML.load_file(@payara_domain_yaml_config)
-        log("load: Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
+        log("Payara_AS.load: Payara Domain Configuration: #{@payara_domain_yaml_config}: #{domain_configuration}")
 
         @domain_config = domain_configuration['Domain']
-        log("load: @domain_config -> #{@domain_config}")
+        log("Payara_AS.load: @domain_config -> #{@domain_config}")
 
         # Parse environment variable VCAP_APPLICATION to
         # configure the app, domain and server names
@@ -214,12 +217,12 @@ module JavaBuildpack
         @domain_home  = @payara_domain_path + @domain_name
         @app_src_path = @application.root
 
-        log("load: @bin_home -> #{@bin_home}")
-        log("load: @domain_home -> #{@domain_home}")
-        log("load: @app_src_path -> #{@app_src_path}")
-        log("load: @app_name -> #{@app_name}")
-        log("load: @domain_name -> #{@domain_name}")
-        log("load: @server_name -> #{@server_name}")
+        log("Payara_AS.load: @bin_home -> #{@bin_home}")
+        log("Payara_AS.load: @domain_home -> #{@domain_home}")
+        log("Payara_AS.load: @app_src_path -> #{@app_src_path}")
+        log("Payara_AS.load: @app_name -> #{@app_name}")
+        log("Payara_AS.load: @domain_name -> #{@domain_name}")
+        log("Payara_AS.load: @server_name -> #{@server_name}")
 
         domain_configuration || {}
       end
@@ -240,8 +243,8 @@ module JavaBuildpack
           @app_config_cache_root  = war_config_cache_root
           @payara_domain_yaml_config = Dir.glob("#{war_config_cache_root}/*.yml")[0]
 
-          log("locate_domain_config_by_app_type: web_inf @app_config_cache_root -> #{@app_config_cache_root}")
-          log("locate_domain_config_by_app_type: web_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+          log("Payara_AS.locate_domain_config_by_app_type: web_inf @app_config_cache_root -> #{@app_config_cache_root}")
+          log("Payara_AS.locate_domain_config_by_app_type: web_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
 
         elsif app_inf?
           ear_config_cache_root = @application.root + 'APP-INF' + APP_PAYARA_CONFIG_CACHE_DIR
@@ -255,8 +258,8 @@ module JavaBuildpack
 
           @app_config_cache_root  = ear_config_cache_root
           @payara_domain_yaml_config = Dir.glob("#{ear_config_cache_root}/*.yml")[0]
-          log("locate_domain_config_by_app_type: app_inf @app_config_cache_root -> #{@app_config_cache_root}")
-          log("locate_domain_config_by_app_type: app_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
+          log("Payara_AS.locate_domain_config_by_app_type: app_inf @app_config_cache_root -> #{@app_config_cache_root}")
+          log("Payara_AS.locate_domain_config_by_app_type: app_inf @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
         end
 
       end
@@ -310,7 +313,8 @@ module JavaBuildpack
           'payara_install'              => @payara_install,
           'payara_domain_yaml_config'   => @payara_domain_yaml_config,
           'payara_domain_config_script' => @payara_domain_config_script,
-          'payara_domain_path'          => @payara_domain_path
+          'payara_domain_path'          => @payara_domain_path,
+          'payara_home'                 => @payara_home
         }
 
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
