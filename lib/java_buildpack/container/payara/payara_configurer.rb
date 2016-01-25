@@ -224,7 +224,7 @@ module JavaBuildpack
           log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
 
           print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
-          print "       WLST log saved at: #{@payara_sandbox_root}/wlstDomainCreation.log\n"
+          print "       Domain Creation log saved at: #{@payara_home}/domainCreation.log\n"
         end
 
         def complete_domain_configs_yml
