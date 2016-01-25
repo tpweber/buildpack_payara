@@ -106,14 +106,14 @@ module JavaBuildpack
           java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
           log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
-          @payara_asadmin = Dir.glob("#{@payara_home}" + PAYARA_CONFIGURE_SCRIPT)[0]
+          @payara_asadmin = Dir.glob("#{@payara_home}" + '/' + PAYARA_CONFIGURE_SCRIPT)[0]
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
-          @java_home        = File.dirname(java_binary) + '/..'
-          @payara_install_path = File.dirname(@payara_asadmin)
-
+          @java_home = File.dirname(java_binary) + '/..'
           log("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
+          @payara_install_path = File.dirname(@payara_asadmin)
           log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
+
 
           system "/bin/chmod +x #{@payara_asadmin}"
 
