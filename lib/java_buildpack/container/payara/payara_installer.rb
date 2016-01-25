@@ -33,6 +33,7 @@ module JavaBuildpack
           log("PayaraInstaller.initialize: @input_file -> #{input_file}")
           log("PayaraInstaller.initialize: @droplet.sandbox -> #{@droplet.sandbox}")
           log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("PayaraInstaller.initialize: @payara_install -> #{@payara_install}")
           log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
         end
 

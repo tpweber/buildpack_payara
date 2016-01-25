@@ -285,7 +285,8 @@ module JavaBuildpack
         installation_map = {
           'droplet'           => @droplet,
           'payara_sandbox_root'  => @payara_sandbox_root,
-          'config_cache_root' => @buildpack_config_cache_root
+          'config_cache_root' => @buildpack_config_cache_root,
+          'payara_install' => @payara_install
         }
 
         log("Downloding Payara, Version[#{@payara_version}] from #{@payara_uri}")
