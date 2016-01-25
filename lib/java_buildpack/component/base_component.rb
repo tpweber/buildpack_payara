@@ -120,7 +120,7 @@ module JavaBuildpack
       # @return [Void]
       def download_tar(version, uri, target_directory = @droplet.sandbox, name = @component_name)
         download(version, uri, name) do |file|
-          with_timing "Expanding #{name} to #{target_directory.relative_path_from(@droplet.root)}" do
+          with_timing "Expanding #{name} to #{target_directory.relative_path_from(@droplet.root)} -> (#{target_directory.to_path()})" do
             FileUtils.mkdir_p target_directory
             shell "tar x#{compression_flag(file)}f #{file.path} -C #{target_directory} --strip 1 2>&1"
           end
@@ -137,7 +137,7 @@ module JavaBuildpack
       def download_zip(version, uri, strip_top_level = true, target_directory = @droplet.sandbox,
                        name = @component_name)
         download(version, uri, name) do |file|
-          with_timing "Expanding #{name} to #{target_directory.relative_path_from(@droplet.root)}" do
+          with_timing "Expanding #{name} to #{target_directory.relative_path_from(@droplet.root)} -> (#{target_directory.to_path()})" do
             if strip_top_level
               Dir.mktmpdir do |root|
                 shell "unzip -qq #{file.path} -d #{root} 2>&1"
