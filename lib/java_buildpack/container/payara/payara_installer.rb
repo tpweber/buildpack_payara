@@ -86,7 +86,7 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
 
-          files = Dir.glob("#{@droplet.root}" + "/*")
+          files = Dir.entries("#{@droplet.root}")
           log("PayaraInstaller.install_using_zip: #{files}")
           oracle_jre_path = Dir.glob("**/oracle_jre/")[0]
           log("PayaraInstaller.install_using_zip: oracle_jre_path: #{oracle_jre_path}")
