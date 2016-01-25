@@ -29,7 +29,7 @@ module JavaBuildpack
           @config_cache_root = installation_map['config_cache_root']
 
           log("PayaraInstaller.initialize: @input_file -> #{input_file}")
-          log("PayaraInstaller.initialize: @droplet -> #{@droplet}")
+          log("PayaraInstaller.initialize: @droplet.sandbox -> #{@droplet.sandbox}")
           log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
           log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
         end
@@ -82,8 +82,12 @@ module JavaBuildpack
 
           log_and_print("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
+          log_and_print("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
+          log_and_print("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
+          log_and_print("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
           java_binary      = Dir.glob("#{@droplet.root}" + '/**/' + JAVA_BINARY, File::FNM_DOTMATCH)[0]
           log_and_print("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
+
           configure_script = Dir.glob("#{@payara_sandbox_root}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
           log_and_print("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
 
@@ -94,6 +98,8 @@ module JavaBuildpack
           log_and_print("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
 
           system "/bin/chmod +x #{configure_script}"
+
+          log_and_print("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
 
           # Run configure.sh so the actual files are unpacked fully and paths are configured correctly
           # Need to use pipeline as we need to provide inputs to scripts downstream
