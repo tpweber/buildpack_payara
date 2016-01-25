@@ -172,7 +172,7 @@ module JavaBuildpack
         commandDeployWar << "export AS_JAVA=#{@java_home};"
         commandDeployWar << "export java=#{@java_binary};"
         commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
-        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true --target=#{@domain_name} #{@app_name} > #{@payara_home}/domain.log;"
+        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true #{@app_name} > #{@payara_home}/domain.log;"
         #system "#{commandDeployWar}"
 
         log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
