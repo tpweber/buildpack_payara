@@ -76,17 +76,17 @@ module JavaBuildpack
         log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
 
         def install_using_zip(zipFile)
-          log("PayaraInstaller.install_using_zip: #{zipFile}")
+          log_and_print("PayaraInstaller.install_using_zip: #{zipFile}")
           log_and_print("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
 
           system "/usr/bin/unzip #{zipFile} -d #{@payara_sandbox_root} >/dev/null"
 
-          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
+          log_and_print("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
           java_binary      = Dir.glob("#{@droplet.root}" + '/**/' + JAVA_BINARY, File::FNM_DOTMATCH)[0]
-          log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
+          log_and_print("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
           configure_script = Dir.glob("#{@payara_sandbox_root}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
-          log("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
+          log_and_print("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
 
           @java_home        = File.dirname(java_binary) + '/..'
           @payara_install_path = File.dirname(configure_script)
@@ -269,8 +269,6 @@ module JavaBuildpack
           end
           java_home
         end
-
-        public
 
         def log(content)
           JavaBuildpack::Container::Payara::PayaraUtil.log(content)
