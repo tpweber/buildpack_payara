@@ -247,8 +247,12 @@ module JavaBuildpack
           commandListDomains << "export AS_JAVA=#{@java_home};"
           commandListDomains << "export java=#{@java_binary};"
           commandListDomains << "${AS_JAVA}/bin/java -version;"
-          commandListDomains << "#{@payara_asadmin} --user admin --nopassword list-domains > #{@payara_home}/domains.txt"
+          commandListDomains << "#{@payara_asadmin} --user admin list-domains > #{@payara_home}/domains.txt"
           system "#{commandListDomains}"
+
+          domains = File.read("#{@payara_home}/domains.txt")
+          log("PayaraConfigurer.check_domain: domains: #{domains}")
+
           ##return if Dir.glob("#{@domain_home}/config/config.xml")[0]
 
           ##log_and_print('Problem with domain creation!!')
