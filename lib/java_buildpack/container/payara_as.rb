@@ -92,10 +92,6 @@ module JavaBuildpack
           @buildpack_config_cache_root = BUILDPACK_CONFIG_CACHE_DIR
           log("Payara_AS.initialize: @buildpack_config_cache_root -> #{@buildpack_config_cache_root}")
 
-          @java_home   = ''
-          @java_binary   = ''
-          @payara_asadmin = ''
-
           load
         else
           @payara_version = nil
@@ -126,9 +122,19 @@ module JavaBuildpack
         #monitor_agent  = JavaBuildpack::Container::Payara::MonitorAgent.new(@application)
         #monitor_script = monitor_agent.monitor_script
 
-        releaser             = JavaBuildpack::Container::Payara::PayaraReleaser.new(@application, @droplet, @domain_home,
-                                                                              @server_name, @start_in_wlx_mode)
+        releaser = JavaBuildpack::Container::Payara::PayaraReleaser.new(@application, @droplet, @domain_home,
+                                                                              @server_name, @start_in_wlx_mode, @java_home)
 
+        result_map = releaser.create_scripts
+
+        @java_home   = result_map['java_home']
+        @java_binary   = result_map['java_binary']
+        @payara_asadmin = result_map['payara_asadmin']
+        log("Payadra_AS.configure: @java_home -> #{@java_home}")
+        log("Payadra_AS.configure: @java_binary -> #{@java_binary}")
+        log("Payadra_AS.configure: @payara_install -> #{@payara_install}")
+        log("Payadra_AS.configure: @payara_home -> #{@payara_home}")
+        log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
         #pre_start_script     = releaser.pre_start
         #post_shutdown_script = releaser.post_shutdown
 

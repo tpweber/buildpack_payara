@@ -212,6 +212,7 @@ module JavaBuildpack
             log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
           end
 
+          log("PayaraConfigurer.create_domain: creating domain: #{@domain_name}")
           commandCreateDomain = "export JAVA_HOME=#{@java_home};"
           commandCreateDomain << "export AS_JAVA=#{@java_home};"
           commandCreateDomain << "export java=#{@java_binary};"
