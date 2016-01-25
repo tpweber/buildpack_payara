@@ -56,7 +56,7 @@ module JavaBuildpack
           log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
           log("PayaraInstaller.install: @droplet.root -> #{@droplet.root}")
           filesDropletRoot = Dir.entries("#{@droplet.root}")
-          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesDropletRoot}")
+          log("PayaraInstaller.install: @droplet.root.files: #{filesDropletRoot}")
 
           print "-----> Installing Payara to #{@droplet.sandbox.relative_path_from(@droplet.root)}"\
                               " using downloaded file: #{input_file_path}\n"
@@ -64,7 +64,8 @@ module JavaBuildpack
           if input_file_path[/\.zip/]
             result_map = install_using_zip(input_file_path)
           else
-            result_map = install_using_jar_or_binary(input_file_path)
+            log("PayaraInstaller.install: no valid zip format for @input_file -> #{input_file}")
+          #  result_map = install_using_jar_or_binary(input_file_path)
           end
 
           puts "(#{(Time.now - expand_start_time).duration})"
@@ -105,7 +106,7 @@ module JavaBuildpack
           java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
           log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
-          @payara_asadmin = Dir.glob("#{@payara_home}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
+          @payara_asadmin = Dir.glob("#{@payara_home}" + '/bin/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
           @java_home        = File.dirname(java_binary) + '/..'
@@ -140,7 +141,7 @@ module JavaBuildpack
 
           {
             'java_home'   => @java_home,
-            'payara_install' => @payara_install_path,
+            'payara_install' => @payara_install,
             'payara_home' => @payara_home,
             'payara_asadmin' => @payara_asadmin
           }
