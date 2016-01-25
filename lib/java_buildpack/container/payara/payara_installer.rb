@@ -40,13 +40,6 @@ module JavaBuildpack
         def install
           expand_start_time = Time.now
           log("PayaraInstaller.install: start_time -> #{expand_start_time}")
-
-          if not Dir.exist? @payara_sandbox_root
-            #FileUtils.rm_rf @payara_sandbox_root
-            FileUtils.mkdir_p @payara_sandbox_root
-            log("PayaraInstaller.install: created @payara_sandbox_root -> #{@payara_sandbox_root}")
-          end
-          log("PayaraInstaller.install: @payara_sandbox_root -> #{@payara_sandbox_root}")
           input_file_path = File.absolute_path(@input_file.path)
 
           log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
