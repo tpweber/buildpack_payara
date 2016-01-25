@@ -192,34 +192,15 @@ module JavaBuildpack
           domains = File.read("#{@payara_home}/domains.txt")
           log("PayaraConfigurer.check_domain: domains: #{domains}")
           included = domains.include? "#{@domain_name}"
-          if included
-            commandStopDomain = "export JAVA_HOME=#{@java_home};"
-            commandStopDomain << "export AS_JAVA=#{@java_home};"
-            commandStopDomain << "export java=#{@java_binary};"
-            commandStopDomain << "export AS_ADMIN_PASSWORDFILE=;"
-            commandStopDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt stop-domain --force=true #{@domain_name} > #{@payara_home}/domainCreation.log"
-            system "#{commandStopDomain}"
-
-            log("PayaraConfigurer.create_domain: commandStopDomain: #{commandStopDomain}")
-
-            commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
-            commandDeleteDomain << "export AS_JAVA=#{@java_home};"
-            commandDeleteDomain << "export java=#{@java_binary};"
-            commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
-            commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
-            system "#{commandDeleteDomain}"
-
-            log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
+          if not included
+            log("PayaraConfigurer.create_domain: creating domain: #{@domain_name}")
+            commandCreateDomain = "export JAVA_HOME=#{@java_home};"
+            commandCreateDomain << "export AS_JAVA=#{@java_home};"
+            commandCreateDomain << "export java=#{@java_binary};"
+            commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
+            system "#{commandCreateDomain}"
+            log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
           end
-
-          log("PayaraConfigurer.create_domain: creating domain: #{@domain_name}")
-          commandCreateDomain = "export JAVA_HOME=#{@java_home};"
-          commandCreateDomain << "export AS_JAVA=#{@java_home};"
-          commandCreateDomain << "export java=#{@java_binary};"
-          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
-          system "#{commandCreateDomain}"
-
-          log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
 
           print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
           print "       Domain Creation log saved at: #{@payara_home}/domainCreation.log\n"
