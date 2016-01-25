@@ -74,36 +74,36 @@ module JavaBuildpack
         PAYARA_ORA_INV_INSTALL_PATH   = '/tmp/payaraOraInstallInventory'.freeze
 
         def install_using_zip(zipFile)
-          log_and_print("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
-          log_and_print("PayaraInstaller.install_using_zip: #{zipFile}")
-          log_and_print("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
+          log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
+          log("PayaraInstaller.install_using_zip: #{zipFile}")
+          log("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
 
           system "/usr/bin/unzip #{zipFile} -d #{@payara_sandbox_root} >/dev/null"
 
-          log_and_print("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
+          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
-          log_and_print("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
-          log_and_print("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
-          log_and_print("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
-          java_binary      = Dir.glob("#{@droplet.root}" + '/**/' + JAVA_BINARY, File::FNM_DOTMATCH)[0]
-          log_and_print("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
+          log("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
+          log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
+          log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
+          java_binary      = Dir.glob("oracle_jre" + '/**/' + JAVA_BINARY, File::FNM_DOTMATCH)[0]
+          log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
           configure_script = Dir.glob("#{@payara_sandbox_root}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
-          log_and_print("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
+          log("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
 
           @java_home        = File.dirname(java_binary) + '/..'
           @payara_install_path = File.dirname(configure_script)
 
-          log_and_print("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
-          log_and_print("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
+          log("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
+          log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
 
           system "/bin/chmod +x #{configure_script}"
 
-          log_and_print("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
+          log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
 
           # Run configure.sh so the actual files are unpacked fully and paths are configured correctly
           # Need to use pipeline as we need to provide inputs to scripts downstream
-          log_and_print('Running PAYARA Install/config script!!')
+          log('Running PAYARA Install/config script!!')
 
           # Check whether running on non-linux machine, to pick the correct JAVA_HOME location
           @java_home = check_and_reset_java_home_for_non_linux(@java_home)
