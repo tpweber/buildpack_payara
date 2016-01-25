@@ -94,7 +94,7 @@ module JavaBuildpack
           #oracle_jre_path = Dir.exist?("/tmp/staged/app/.java-buildpack/oracle_jre")
           oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
           log("PayaraInstaller.install_using_zip: oracle_jre_path: #{oracle_jre_path}")
-          java_binary = Dir.glob("#{oracle_jre_path}" + '/**/' + JAVA_BINARY)[0]
+          java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
           log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
           configure_script = Dir.glob("#{@payara_sandbox_root}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
@@ -116,10 +116,10 @@ module JavaBuildpack
 
           # Check whether running on non-linux machine, to pick the correct JAVA_HOME location
           @java_home = check_and_reset_java_home_for_non_linux(@java_home)
-          save_middleware_home_in_configure_script(configure_script, @payara_install_path, @java_home)
+          # save_middleware_home_in_configure_script(configure_script, @payara_install_path, @java_home)
 
           command = "export JAVA_HOME=#{@java_home}; "
-          command << " export MW_HOME=#{@payara_install_path}; "
+          #command << " export MW_HOME=#{@payara_install_path}; "
           command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
 
           system "#{command}"
