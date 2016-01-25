@@ -41,16 +41,18 @@ module JavaBuildpack
           expand_start_time = Time.now
           log("PayaraInstaller.install: start_time -> #{expand_start_time}")
 
-          if not Dir.exist? @payara_sandbox_root
+          if not Dir.exist? @payara_install
             #FileUtils.rm_rf @payara_sandbox_root
-            FileUtils.mkdir @payara_sandbox_root
-            log("PayaraInstaller.install: created @payara_sandbox_root -> #{@payara_sandbox_root}")
+            FileUtils.mkdir @payara_install
+            log("PayaraInstaller.install: created @payara_install -> #{@payara_install}")
           end
-          log("PayaraInstaller.install: @payara_sandbox_root -> #{@payara_sandbox_root}")
+          log("PayaraInstaller.install: @payara_install -> #{@payara_install}")
           input_file_path = File.absolute_path(@input_file.path)
 
           log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
           log("PayaraInstaller.install: @droplet.root -> #{@droplet.root}")
+          filesDropletRoot = Dir.entries("#{@droplet.root}")
+          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesDropletRoot}")
 
           print "-----> Installing Payara to #{@droplet.sandbox.relative_path_from(@droplet.root)}"\
                               " using downloaded file: #{input_file_path}\n"
@@ -81,12 +83,12 @@ module JavaBuildpack
         def install_using_zip(zipFile)
           log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
           log("PayaraInstaller.install_using_zip: #{zipFile}")
-          log("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
+          log("Installing Payara from downloaded zip file using config script under #{@payara_install}!")
 
-          system "/usr/bin/unzip -v #{zipFile} -d #{@payara_sandbox_root}"
+          system "/usr/bin/unzip #{zipFile} -d #{@payara_install}"
           #" >/dev/null"
 
-          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
+          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_install}")
 
           log("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
           filesDropletRoot = Dir.entries("#{@droplet.root}")
