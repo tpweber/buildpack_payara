@@ -286,7 +286,8 @@ module JavaBuildpack
           'droplet'           => @droplet,
           'payara_sandbox_root'  => @payara_sandbox_root,
           'config_cache_root' => @buildpack_config_cache_root,
-          'payara_install' => @payara_install
+          'payara_install' => @payara_install,
+          'payara_home' => @payara_home
         }
 
         log("Downloding Payara, Version[#{@payara_version}] from #{@payara_uri}")
