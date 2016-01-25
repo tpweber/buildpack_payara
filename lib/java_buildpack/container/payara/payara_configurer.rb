@@ -73,6 +73,9 @@ module JavaBuildpack
           log("PayaraConfigurer.configure: @java_binary -> #{@java_binary }")
           print "-----> Configuring Payara domain under #{@payara_home}\n"
 
+          commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
+          system "#{commandPW}"
+
           # Save the location of the Payara Domain template jar file - this varies across releases
           # 10.3.6 - under ./wlserver/common/templates/domains/wls.jar
           # 12.1.2 - under ./wlserver/common/templates/wls/wls.jar
@@ -82,7 +85,7 @@ module JavaBuildpack
           command << "export AS_JAVA=#{@java_home};"
           command << "export java=#{@java_binary};"
           command << "${AS_JAVA}/bin/java -version;"
-          command << "#{@payara_asadmin} -?"
+          command << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain domainTest"
           system "#{command}"
 
           log("PayaraConfigurer.configure: command: #{command}")
