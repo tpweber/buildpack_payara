@@ -79,10 +79,10 @@ module JavaBuildpack
           #@payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
 
           command = "export JAVA_HOME=#{@java_home};"
-          command << "export AS_JAVA=#{@java_binary};"
+          command << "export AS_JAVA=#{@java_home};"
           command << "export java=#{@java_binary};"
           system "#{command}"
-          system "java -version"
+          system "${AS_JAVA}/bin/java -version"
           system "#{@payara_asadmin} -?"
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
