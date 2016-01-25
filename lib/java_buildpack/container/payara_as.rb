@@ -134,8 +134,45 @@ module JavaBuildpack
           "sleep 10; #{pre_start_script}; #{monitor_script} ; #{@domain_home}/startWebLogic.sh; #{post_shutdown_script}"
         ].flatten.compact.join(' ')
 =end
+        log("Payadra_AS.release: @app_name -> #{@app_name}")
+        log("Payadra_AS.release: @application -> #{@application}")
+        log("Payadra_AS.release: @app_services_config -> #{@app_services_config}")
+        log("Payadra_AS.release: @app_src_path -> #{@app_src_path}")
+        log("Payadra_AS.release: @domain_name -> #{@domain_name}")
+        log("Payadra_AS.release: @payara_asadmin -> #{@payara_asadmin}")
+      start_domain_payara
+      deploy_war_to_domain
 
+      end
 
+      def commandDeployWar
+        commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
+        system "#{commandPW}"
+
+        commandDeployWar = "export JAVA_HOME=#{@java_home};"
+        commandDeployWar << "export AS_JAVA=#{@java_home};"
+        commandDeployWar << "export java=#{@java_binary};"
+        commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
+        commandDeployWar << "${AS_JAVA}/bin/java -version;"
+        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
+        system "#{commandDeployWar}"
+
+        log("Payara_AS.commandDeployWar: commandDeployWar: #{commandStartDomain}")
+      end
+
+      def start_domain_payara
+        commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
+        system "#{commandPW}"
+
+        commandStartDomain = "export JAVA_HOME=#{@java_home};"
+        commandStartDomain << "export AS_JAVA=#{@java_home};"
+        commandStartDomain << "export java=#{@java_binary};"
+        commandStartDomain << "export AS_ADMIN_PASSWORDFILE=;"
+        commandStartDomain << "${AS_JAVA}/bin/java -version;"
+        commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
+        system "#{commandStartDomain}"
+
+        log("Payara_AS.start_domain_payara: commandStartDomain: #{commandStartDomain}")
       end
 
       private
@@ -335,6 +372,13 @@ module JavaBuildpack
           'payara_home'                 => @payara_home,
           'payara_asadmin'              => @payara_asadmin
         }
+
+        log("Payadra_AS.configure: @app_name -> #{@app_name}")
+        log("Payadra_AS.configure: @application -> #{@application}")
+        log("Payadra_AS.configure: @app_services_config -> #{@app_services_config}")
+        log("Payadra_AS.configure: @app_src_path -> #{@app_src_path}")
+        log("Payadra_AS.configure: @domain_name -> #{@domain_name}")
+        log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
 
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
         configurer.configure
