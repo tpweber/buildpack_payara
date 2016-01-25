@@ -209,7 +209,7 @@ module JavaBuildpack
           commandDeleteDomain << "export java=#{@java_binary};"
           commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
           commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
-          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
+          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
           system "#{commandDeleteDomain}"
 
           log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
@@ -218,7 +218,7 @@ module JavaBuildpack
           commandCreateDomain << "export AS_JAVA=#{@java_home};"
           commandCreateDomain << "export java=#{@java_binary};"
           commandCreateDomain << "${AS_JAVA}/bin/java -version;"
-          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
+          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
           system "#{commandCreateDomain}"
 
           log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
@@ -252,11 +252,13 @@ module JavaBuildpack
 
           domains = File.read("#{@payara_home}/domains.txt")
           log("PayaraConfigurer.check_domain: domains: #{domains}")
-
-          ##return if Dir.glob("#{@domain_home}/config/config.xml")[0]
-
-          ##log_and_print('Problem with domain creation!!')
-          ## system "/bin/cat #{@payara_sandbox_root}/wlstDomainCreation.log"
+          included = domains.include? "#{@domain_name}"
+          if included
+            log("PayaraConfigurer.check_domain: domain #{@domain_name} created.")
+          else
+            log_and_print("Problem with domain creation for #{@domain_name}!")
+            system "/bin/cat #{@payara_home}/domainCreation.log"
+          end
         end
 
         def link_jars_to_domain
