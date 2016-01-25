@@ -29,12 +29,14 @@ module JavaBuildpack
           @payara_home  = installation_map['payara_home']
           @payara_install  = installation_map['payara_install']
           @config_cache_root = installation_map['config_cache_root']
+          @payara_asadmin = installation_map['payara_asadmin']
 
           log("PayaraInstaller.initialize: @input_file -> #{input_file}")
           log("PayaraInstaller.initialize: @droplet.sandbox -> #{@droplet.sandbox}")
           log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
           log("PayaraInstaller.initialize: @payara_install -> #{@payara_install}")
           log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
+          log("PayaraInstaller.initialize: @@payara_asadmin -> #{@payara_asadmin}")
         end
 
         # Do the installation
@@ -103,8 +105,8 @@ module JavaBuildpack
           java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
           log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
 
-          configure_script = Dir.glob("#{@payara_home}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
-          log("PayaraInstaller.install_using_zip: configure_script: #{configure_script}")
+          @payara_asadmin = Dir.glob("#{@payara_home}" + '/**/' + PAYARA_CONFIGURE_SCRIPT)[0]
+          log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
           @java_home        = File.dirname(java_binary) + '/..'
           @payara_install_path = File.dirname(configure_script)
@@ -128,6 +130,9 @@ module JavaBuildpack
           #command << " export MW_HOME=#{@payara_install_path}; "
           #command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
           log("PayaraInstaller.install_using_zip: JAVA_HOME: #{@java_home}")
+          log("PayaraInstaller.install_using_zip: @payara_install: #{@payara_install}")
+          log("PayaraInstaller.install_using_zip: @payara_home: #{@payara_home}")
+          log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
           system "#{command}"
 
@@ -135,7 +140,9 @@ module JavaBuildpack
 
           {
             'java_home'   => @java_home,
-            'payara_install' => @payara_install_path
+            'payara_install' => @payara_install_path,
+            'payara_home' => @payara_home,
+            'payara_asadmin' => @payara_asadmin
           }
         end
 
@@ -175,7 +182,8 @@ module JavaBuildpack
 
           {
             'java_home'   => @java_home,
-            'payara_install' => @payara_install_path
+            'payara_install' => @payara_install_path,
+            'payara_home' => @payara_home
           }
         end
 

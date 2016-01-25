@@ -39,6 +39,7 @@ module JavaBuildpack
           @payara_domain_path          = configuration_map['payara_domain_path']
           @payara_domain_yaml_config   = configuration_map['payara_domain_yaml_config']
           @payara_domain_config_script = configuration_map['payara_domain_config_script']
+          @payara_asadmin = configuration_map['payara_asadmin']
 
           log("PayaraConfigurer.initialize: @app_name -> #{@app_name}")
           log("PayaraConfigurer.initialize: @application -> #{@application}")
@@ -56,20 +57,23 @@ module JavaBuildpack
           log("PayaraConfigurer.initialize: @payara_domain_path -> #{@payara_domain_path}")
           log("PayaraConfigurer.initialize: @payara_domain_yaml_config -> #{@payara_domain_yaml_config}")
           log("PayaraConfigurer.initialize: @payara_domain_config_script -> #{@payara_domain_config_script}")
+          log("PayaraConfigurer.initialize: @payara_asadmin -> #{@payara_asadmin}")
         end
 
         # Configure Payara
         def configure
           configure_start_time = Time.now
-          print "-----> Configuring Payara domain under #{@payara_sandbox_root.relative_path_from(@droplet.root)}\n"
+          print "-----> Configuring Payara domain under #{@payara_sandbox_root}\n"
 
           @payara_home = File.dirname(Dir.glob("#{@payara_install}/**/weblogic.jar")[0]) + '/../..'
           unless @payara_home
             log_and_print("Problem with install, check captured install log output at #{@payara_install}/install.log")
           end
 
-          log("Payara install is located at : #{@payara_install}")
-          log("Application is located at      : #{@application.root}")
+          log("PayaraConfigurer.configure: @payara_install: #{@payara_install}")
+          log("PayaraConfigurer.configure: @payara_home: #{@payara_home}")
+          log("PayaraConfigurer.configure: @payara_asadmin -> #{@payara_asadmin}")
+          log("PayaraConfigurer.configure: @application.root: #{@application.root}")
 
           # Save the location of the Payara Domain template jar file - this varies across releases
           # 10.3.6 - under ./wlserver/common/templates/domains/wls.jar

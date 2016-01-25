@@ -287,7 +287,8 @@ module JavaBuildpack
           'payara_sandbox_root'  => @payara_sandbox_root,
           'config_cache_root' => @buildpack_config_cache_root,
           'payara_install' => @payara_install,
-          'payara_home' => @payara_home
+          'payara_home' => @payara_home,
+          'payara_asadmin' => @payara_asadmin
         }
 
         log("Downloding Payara, Version[#{@payara_version}] from #{@payara_uri}")
@@ -318,7 +319,8 @@ module JavaBuildpack
           'payara_domain_yaml_config'   => @payara_domain_yaml_config,
           'payara_domain_config_script' => @payara_domain_config_script,
           'payara_domain_path'          => @payara_domain_path,
-          'payara_home'                 => @payara_home
+          'payara_home'                 => @payara_home,
+          'payara_asadmin'              => @payara_asadmin
         }
 
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
