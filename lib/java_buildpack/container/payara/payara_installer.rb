@@ -40,6 +40,7 @@ module JavaBuildpack
         def install
           expand_start_time = Time.now
           log("PayaraInstaller.install: start_time -> #{expand_start_time}")
+          log("PayaraInstaller.install: trying @payara_install -> #{@payara_install}")
 
           if not Dir.exist? @payara_install
             #FileUtils.rm_rf @payara_sandbox_root
