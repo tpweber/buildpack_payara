@@ -124,6 +124,7 @@ module JavaBuildpack
 
         releaser             = JavaBuildpack::Container::Payara::PayaraReleaser.new(@application, @droplet, @domain_home,
                                                                               @server_name, @start_in_wlx_mode)
+
         #pre_start_script     = releaser.pre_start
         #post_shutdown_script = releaser.post_shutdown
 
@@ -145,7 +146,7 @@ module JavaBuildpack
 
       end
 
-      def commandDeployWar
+      def deploy_war_to_domain
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 

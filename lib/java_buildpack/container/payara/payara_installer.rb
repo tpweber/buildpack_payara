@@ -36,7 +36,7 @@ module JavaBuildpack
           log("PayaraInstaller.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
           log("PayaraInstaller.initialize: @payara_install -> #{@payara_install}")
           log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
-          log("PayaraInstaller.initialize: @@payara_asadmin -> #{@payara_asadmin}")
+          log("PayaraInstaller.initialize: @payara_asadmin -> #{@payara_asadmin}")
         end
 
         # Do the installation
@@ -145,7 +145,6 @@ module JavaBuildpack
             'payara_install' => @payara_install,
             'payara_home' => @payara_home,
             'payara_asadmin' => @payara_asadmin
-
           }
         end
 

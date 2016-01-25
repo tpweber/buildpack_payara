@@ -81,6 +81,14 @@ module JavaBuildpack
           create_domain
           check_domain
           puts "(#{(Time.now - configure_start_time).duration})"
+
+          {
+            'java_home'   => @java_home,
+            'java_binary'   => @java_binary,
+            'payara_install' => @payara_install,
+            'payara_home' => @payara_home,
+            'payara_asadmin' => @payara_asadmin
+          }
         end
 
         private
@@ -264,7 +272,6 @@ module JavaBuildpack
           log("  App Deployment Name        : #{@app_name}")
           log("  App Source Directory       : #{@app_src_path}")
           log("  Using App bundled Config?  : #{@prefer_app_config}")
-          log("  Domain creation script     : #{@payara_domain_config_script}")
           log("  Input PAYARA Yaml Configs  : #{@payara_complete_domain_configs_yml}")
           log('--------------------------------------')
         end
