@@ -81,7 +81,7 @@ module JavaBuildpack
           command = "export JAVA_HOME=#{@java_home};"
           command << "export AS_JAVA=#{@java_home};"
           command << "export java=#{@java_binary};"
-          command << "${AS_JAVA}/bin/java -version";
+          command << "${AS_JAVA}/bin/java -version;"
           command << "#{@payara_asadmin} -?"
           system "#{command}"
 
