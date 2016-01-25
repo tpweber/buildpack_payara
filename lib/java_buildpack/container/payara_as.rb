@@ -394,6 +394,10 @@ module JavaBuildpack
         log("Payadra_AS.configure: @app_src_path -> #{@app_src_path}")
         log("Payadra_AS.configure: @domain_name -> #{@domain_name}")
         log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
+        log("Payara_AS.configure: @java_home -> #{@java_home}")
+        log("Payara_AS.configure: @payara_install -> #{@payara_install}")
+        log("Payara_AS.configure: @payara_home -> #{@payara_home}")
+        log("Payara_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
 
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
         result_map    = configurer.configure
