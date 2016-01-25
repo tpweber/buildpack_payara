@@ -109,12 +109,12 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
           @java_home        = File.dirname(java_binary) + '/..'
-          @payara_install_path = File.dirname(configure_script)
+          @payara_install_path = File.dirname(@payara_asadmin)
 
           log("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
           log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
 
-          system "/bin/chmod +x #{configure_script}"
+          system "/bin/chmod +x #{@payara_asadmin}"
 
           log("PayaraInstaller.install_using_zip: mode changed for @payara_install_path: #{@payara_install_path}")
 
