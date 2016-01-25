@@ -73,9 +73,8 @@ module JavaBuildpack
         PAYARA_ORA_INVENTORY_TEMPLATE = 'ORACLE_INVENTORY_INSTALL_PATH'.freeze
         PAYARA_ORA_INV_INSTALL_PATH   = '/tmp/payaraOraInstallInventory'.freeze
 
-        log_and_print("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
-
         def install_using_zip(zipFile)
+          log_and_print("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
           log_and_print("PayaraInstaller.install_using_zip: #{zipFile}")
           log_and_print("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
 
@@ -116,6 +115,7 @@ module JavaBuildpack
         end
 
         def install_using_jar_or_binary(install_binary_file)
+          log_and_print("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
           print_warnings
 
           java_binary       = Dir.glob("#{@droplet.root}" + '/**/' + JAVA_BINARY, File::FNM_DOTMATCH)[0]
