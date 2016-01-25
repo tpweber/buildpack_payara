@@ -103,13 +103,13 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
           oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
           log("PayaraInstaller.install_using_zip: oracle_jre_path: #{oracle_jre_path}")
-          java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
-          log("PayaraInstaller.install_using_zip: java_binary: #{java_binary}")
+          @java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
+          log("PayaraInstaller.install_using_zip: java_binary: #{@java_binary}")
 
           @payara_asadmin = Dir.glob("#{@payara_home}" + '/' + PAYARA_CONFIGURE_SCRIPT)[0]
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
 
-          @java_home = File.dirname(java_binary) + '/..'
+          @java_home = File.dirname(@java_binary) + '/..'
           log("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
           @payara_install_path = File.dirname(@payara_asadmin)
           log("PayaraInstaller.install_using_zip: @payara_install_path: #{@payara_install_path}")
@@ -130,6 +130,7 @@ module JavaBuildpack
           #command << " export MW_HOME=#{@payara_install_path}; "
           #command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
           log("PayaraInstaller.install_using_zip: JAVA_HOME: #{@java_home}")
+          log("PayaraInstaller.install_using_zip: @java_binary: #{@java_binary}")
           log("PayaraInstaller.install_using_zip: @payara_install: #{@payara_install}")
           log("PayaraInstaller.install_using_zip: @payara_home: #{@payara_home}")
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
@@ -140,9 +141,11 @@ module JavaBuildpack
 
           {
             'java_home'   => @java_home,
+            'java_binary'   => @java_binary,
             'payara_install' => @payara_install,
             'payara_home' => @payara_home,
             'payara_asadmin' => @payara_asadmin
+
           }
         end
 

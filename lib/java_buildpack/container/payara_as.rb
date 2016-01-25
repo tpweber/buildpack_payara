@@ -320,6 +320,7 @@ module JavaBuildpack
           'domain_home'              => @domain_home,
           'droplet'                  => @droplet,
           'java_home'                => @java_home,
+          'java_binary'                => @java_binary,
           'config_cache_root'        => @config_cache_root,
           'payara_sandbox_root'         => @payara_sandbox_root,
           'payara_install'              => @payara_install,
