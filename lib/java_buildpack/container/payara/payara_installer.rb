@@ -73,7 +73,7 @@ module JavaBuildpack
         PAYARA_ORA_INVENTORY_TEMPLATE = 'ORACLE_INVENTORY_INSTALL_PATH'.freeze
         PAYARA_ORA_INV_INSTALL_PATH   = '/tmp/payaraOraInstallInventory'.freeze
 
-        log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
+        log_and_print("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
 
         def install_using_zip(zipFile)
           log_and_print("PayaraInstaller.install_using_zip: #{zipFile}")
