@@ -43,7 +43,7 @@ module JavaBuildpack
 
           if not Dir.exist? @payara_sandbox_root
             #FileUtils.rm_rf @payara_sandbox_root
-            FileUtils.mkdir_p @payara_sandbox_root
+            FileUtils.mkdir @payara_sandbox_root
             log("PayaraInstaller.install: created @payara_sandbox_root -> #{@payara_sandbox_root}")
           end
           log("PayaraInstaller.install: @payara_sandbox_root -> #{@payara_sandbox_root}")
@@ -83,7 +83,8 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: #{zipFile}")
           log("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
 
-          system "/usr/bin/unzip #{zipFile} -d #{@payara_sandbox_root} >/dev/null"
+          system "/usr/bin/unzip -v #{zipFile} -d #{@payara_sandbox_root}"
+          #" >/dev/null"
 
           log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
