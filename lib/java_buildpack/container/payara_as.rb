@@ -55,6 +55,9 @@ module JavaBuildpack
           end
 
           log("Payara_AS.initialize: @payara_version -> #{@payara_version}")
+          log("Payara_AS.initialize: @payara_uri -> #{@payara_uri}")
+          log("Payara_AS.initialize: @component_name -> #{@component_name}")
+
 
           @prefer_app_config       = @configuration[PREFER_APP_CONFIG]
           @start_in_wlx_mode       = @configuration[START_IN_WLX_MODE]
@@ -172,7 +175,7 @@ module JavaBuildpack
         commandDeployWar << "export AS_JAVA=#{@java_home};"
         commandDeployWar << "export java=#{@java_binary};"
         commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
-        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true #{@app_name} > #{@payara_home}/domain.log;"
+        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true #{@app_name};"
         #system "#{commandDeployWar}"
 
         log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
@@ -188,7 +191,7 @@ module JavaBuildpack
         commandStartDomain << "export AS_JAVA=#{@java_home};"
         commandStartDomain << "export java=#{@java_binary};"
         commandStartDomain << "export AS_ADMIN_PASSWORDFILE=;"
-        commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
+        commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name};"
         #system "#{commandStartDomain}"
 
         log("Payara_AS.start_domain_payara: commandStartDomain: #{commandStartDomain}")
