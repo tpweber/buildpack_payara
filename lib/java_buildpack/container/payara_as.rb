@@ -298,6 +298,13 @@ module JavaBuildpack
 
           @java_home   = result_map['java_home']
           @payara_install = result_map['payara_install']
+          @payara_home = result_map['payara_home']
+          @payara_asadmin = result_map['payara_asadmin']
+          log("Payara_AS.download_and_install_payara: @java_home -> #{@java_home}")
+          log("Payara_AS.download_and_install_payara: @payara_install -> #{@payara_install}")
+          log("Payara_AS.download_and_install_payara: @payara_home -> #{@payara_home}")
+          log("Payara_AS.download_and_install_payara: @payara_asadmin -> #{@payara_asadmin}")
+
         end
       end
 
