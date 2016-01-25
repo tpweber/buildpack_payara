@@ -78,7 +78,8 @@ module JavaBuildpack
           # Save the location of the Payara Domain template jar file - this varies across releases
           # 10.3.6 - under ./wlserver/common/templates/domains/wls.jar
           # 12.1.2 - under ./wlserver/common/templates/wls/wls.jar
-          @payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
+          #@payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
+          system "#{@payara_asadmin} -?"
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
           update_domain_config_template(@payara_domain_yaml_config)
