@@ -83,7 +83,7 @@ module JavaBuildpack
           log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
           log("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
-          files = Dir.entries("#{@droplet.root}")
+          files = Dir.glob("#{@droplet.root}" + "*")
           log("PayaraInstaller.install_using_zip: @droplet.root.files: #{files}")
           log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
