@@ -189,17 +189,17 @@ module JavaBuildpack
           # Consolidate all the user defined service definitions provided via the app,
           # along with anything else that comes via the Service Bindings via the environment (VCAP_SERVICES) during
           # staging/execution of the droplet.
-          JavaBuildpack::Container::Payara::ServiceBindingsHandler.create_service_definitions_from_file_set(
-            @payara_complete_domain_configs_yml,
-            @config_cache_root,
-            payara_complete_domain_configs_props)
+          #JavaBuildpack::Container::Payara::ServiceBindingsHandler.create_service_definitions_from_file_set(
+           # @payara_complete_domain_configs_yml,
+          #  @config_cache_root,
+           # payara_complete_domain_configs_props)
 
-          JavaBuildpack::Container::Payara::ServiceBindingsHandler.create_service_definitions_from_bindings(
-            @app_services_config,
-            payara_complete_domain_configs_props)
+          #JavaBuildpack::Container::Payara::ServiceBindingsHandler.create_service_definitions_from_bindings(
+          #  @app_services_config,
+           # payara_complete_domain_configs_props)
 
-          log("Done generating Domain Configuration Property file for WLST: #{payara_complete_domain_configs_props}")
-          log('--------------------------------------')
+          #log("Done generating Domain Configuration Property file for WLST: #{payara_complete_domain_configs_props}")
+          #log('--------------------------------------')
 
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
@@ -212,7 +212,7 @@ module JavaBuildpack
           commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
           system "#{commandDeleteDomain}"
 
-          log("PayaraConfigurer.configure: commandDeleteDomain: #{commandDeleteDomain}")
+          log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandDeleteDomain}")
 
           commandCreateDomain = "export JAVA_HOME=#{@java_home};"
           commandCreateDomain << "export AS_JAVA=#{@java_home};"
@@ -221,7 +221,7 @@ module JavaBuildpack
           commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
           system "#{commandCreateDomain}"
 
-          log("PayaraConfigurer.configure: commandCreateDomain: #{commandCreateDomain}")
+          log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
 
           print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
           print "       WLST log saved at: #{@payara_sandbox_root}/wlstDomainCreation.log\n"
