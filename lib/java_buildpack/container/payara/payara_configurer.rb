@@ -183,7 +183,6 @@ module JavaBuildpack
           commandListDomains = "export JAVA_HOME=#{@java_home};"
           commandListDomains << "export AS_JAVA=#{@java_home};"
           commandListDomains << "export java=#{@java_binary};"
-          commandListDomains << "${AS_JAVA}/bin/java -version;"
           commandListDomains << "#{@payara_asadmin} --user admin list-domains > #{@payara_home}/domains.txt"
           system "#{commandListDomains}"
 
@@ -225,7 +224,6 @@ module JavaBuildpack
           commandListDomains = "export JAVA_HOME=#{@java_home};"
           commandListDomains << "export AS_JAVA=#{@java_home};"
           commandListDomains << "export java=#{@java_binary};"
-          commandListDomains << "${AS_JAVA}/bin/java -version;"
           commandListDomains << "#{@payara_asadmin} --user admin list-domains > #{@payara_home}/domains.txt"
           system "#{commandListDomains}"
 
