@@ -72,8 +72,10 @@ module JavaBuildpack
           log("PayaraConfigurer.configure: @java_home: #{@java_home}")
           log("PayaraConfigurer.configure: @java_binary -> #{@java_binary}")
           log("PayaraConfigurer.configure: @domain_name -> #{@domain_name}")
+          log("PayaraConfigurer.configure: @payara_domain_path -> #{@payara_domain_path}")
           print "-----> Configuring Payara domain under #{@payara_home}\n"
 
+=begin
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
 
@@ -85,6 +87,8 @@ module JavaBuildpack
           commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
           system "#{commandDeleteDomain}"
 
+          log("PayaraConfigurer.configure: commandDeleteDomain: #{commandDeleteDomain}")
+
           commandCreateDomain = "export JAVA_HOME=#{@java_home};"
           commandCreateDomain << "export AS_JAVA=#{@java_home};"
           commandCreateDomain << "export java=#{@java_binary};"
@@ -92,7 +96,8 @@ module JavaBuildpack
           commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
           system "#{commandCreateDomain}"
 
-          log("PayaraConfigurer.configure: command: #{command}")
+          log("PayaraConfigurer.configure: commandCreateDomain: #{commandCreateDomain}")
+=end
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
           #update_domain_config_template(@payara_domain_yaml_config)
@@ -196,25 +201,29 @@ module JavaBuildpack
           log("Done generating Domain Configuration Property file for WLST: #{payara_complete_domain_configs_props}")
           log('--------------------------------------')
 
-          # Run wlst.sh to generate the domain as per the requested configurations
-          wlst_script = Dir.glob("#{@payara_install}" + '/**/wlst.sh')[0]
+          commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
+          system "#{commandPW}"
 
-          command = "/bin/chmod +x #{wlst_script}; export JAVA_HOME=#{@java_home};"
-          command << " export MW_HOME=#{@payara_install}; export WL_HOME=#{@payara_home}; export Payara_HOME=#{@payara_home}; " \
-                     'export CLASSPATH=;'
-          command << " sed -i.bak 's#JVM_ARGS=\"#JVM_ARGS=\" -Djava.security.egd=file:/dev/./urandom #g' " \
-                     "#{wlst_script} 2>/dev/null; "
-          command << " #{wlst_script}  #{@payara_domain_config_script} #{payara_complete_domain_configs_props}"
-          command << " > #{@payara_sandbox_root}/wlstDomainCreation.log"
+          commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
+          commandDeleteDomain << "export AS_JAVA=#{@java_home};"
+          commandDeleteDomain << "export java=#{@java_binary};"
+          commandDeleteDomain << "export AS_ADMIN_PASSWORDFILE=;"
+          commandDeleteDomain << "${AS_JAVA}/bin/java -version;"
+          commandDeleteDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt delete-domain #{@domain_name}"
+          system "#{commandDeleteDomain}"
 
-          log("Executing WLST: #{command}")
-          system "#{command} "
-          log("WLST finished generating domain under #{@domain_home}. WLST log saved at: " \
-              "#{@payara_sandbox_root}/wlstDomainCreation.log")
+          log("PayaraConfigurer.configure: commandDeleteDomain: #{commandDeleteDomain}")
 
-          link_jars_to_domain
+          commandCreateDomain = "export JAVA_HOME=#{@java_home};"
+          commandCreateDomain << "export AS_JAVA=#{@java_home};"
+          commandCreateDomain << "export java=#{@java_binary};"
+          commandCreateDomain << "${AS_JAVA}/bin/java -version;"
+          commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name}"
+          system "#{commandCreateDomain}"
 
-          print "-----> Finished configuring Payara Domain under #{@domain_home.relative_path_from(@droplet.root)}.\n"
+          log("PayaraConfigurer.configure: commandCreateDomain: #{commandCreateDomain}")
+
+          print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
           print "       WLST log saved at: #{@payara_sandbox_root}/wlstDomainCreation.log\n"
         end
 
@@ -234,10 +243,16 @@ module JavaBuildpack
         end
 
         def check_domain
-          return if Dir.glob("#{@domain_home}/config/config.xml")[0]
+          commandListDomains = "export JAVA_HOME=#{@java_home};"
+          commandListDomains << "export AS_JAVA=#{@java_home};"
+          commandListDomains << "export java=#{@java_binary};"
+          commandListDomains << "${AS_JAVA}/bin/java -version;"
+          commandListDomains << "#{@payara_asadmin} --user admin --nopassword list-domains > #{@payara_home}/domains.txt"
+          system "#{commandListDomains}"
+          ##return if Dir.glob("#{@domain_home}/config/config.xml")[0]
 
-          log_and_print('Problem with domain creation!!')
-          system "/bin/cat #{@payara_sandbox_root}/wlstDomainCreation.log"
+          ##log_and_print('Problem with domain creation!!')
+          ## system "/bin/cat #{@payara_sandbox_root}/wlstDomainCreation.log"
         end
 
         def link_jars_to_domain
