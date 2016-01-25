@@ -81,11 +81,11 @@ module JavaBuildpack
           command = "export JAVA_HOME=#{@java_home};"
           command << "export AS_JAVA=#{@java_home};"
           command << "export java=#{@java_binary};"
+          command << "${AS_JAVA}/bin/java -version";
+          command << "#{@payara_asadmin} -?"
           system "#{command}"
-          system "${AS_JAVA}/bin/java -version"
-          system "#{@payara_asadmin} -?"
 
-          log("PayaraConfigurer.configure: scripts done.")
+          log("PayaraConfigurer.configure: command: #{command}")
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
           update_domain_config_template(@payara_domain_yaml_config)
