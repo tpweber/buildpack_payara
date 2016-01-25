@@ -40,6 +40,13 @@ module JavaBuildpack
         def install
           expand_start_time = Time.now
           log("PayaraInstaller.install: start_time -> #{expand_start_time}")
+
+          if not Dir.exist? @payara_sandbox_root
+            #FileUtils.rm_rf @payara_sandbox_root
+            FileUtils.mkdir_p @payara_sandbox_root
+            log("PayaraInstaller.install: created @payara_sandbox_root -> #{@payara_sandbox_root}")
+          end
+          log("PayaraInstaller.install: @payara_sandbox_root -> #{@payara_sandbox_root}")
           input_file_path = File.absolute_path(@input_file.path)
 
           log("PayaraInstaller.install: input_file_path -> #{input_file_path}")
@@ -74,15 +81,17 @@ module JavaBuildpack
         def install_using_zip(zipFile)
           log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
           log("PayaraInstaller.install_using_zip: #{zipFile}")
-          log("Installing Payara from downloaded zip file using config script under #{@payara_home}!")
+          log("Installing Payara from downloaded zip file using config script under #{@payara_sandbox_root}!")
 
-          system "/usr/bin/unzip #{zipFile} -d #{@payara_home} >/dev/null"
+          system "/usr/bin/unzip #{zipFile} -d #{@payara_sandbox_root} >/dev/null"
 
-          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_home}")
+          log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_sandbox_root}")
 
           log("PayaraInstaller.install_using_zip: @droplet.root: #{@droplet.root}")
-          files = Dir.entries("#{@droplet.root}")
-          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{files}")
+          filesDropletRoot = Dir.entries("#{@droplet.root}")
+          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesDropletRoot}")
+          filesPayaraHome = Dir.entries("#{@payara_home}")
+          log("PayaraInstaller.install_using_zip: @droplet.root.files: #{filesPayaraHome}")
           log("PayaraInstaller.install_using_zip: JAVA_BINARY: #{JAVA_BINARY}")
           log("PayaraInstaller.install_using_zip: File::FNM_DOTMATCH: #{File::FNM_DOTMATCH}")
           oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
