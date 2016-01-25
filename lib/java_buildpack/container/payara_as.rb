@@ -132,7 +132,7 @@ module JavaBuildpack
         #@java_home   = result_map['java_home']
         #@java_binary   = result_map['java_binary']
         #@payara_asadmin = result_map['payara_asadmin']
-        log("Payadra_AS.configure: @java_home -> #{@java_home}")
+        log("Payadra_AS.configure: @java_home -> #{@@java_home}")
         log("Payadra_AS.configure: @java_binary -> #{@java_binary}")
         log("Payadra_AS.configure: @payara_install -> #{@payara_install}")
         log("Payadra_AS.configure: @payara_home -> #{@payara_home}")
@@ -152,7 +152,7 @@ module JavaBuildpack
         log("Payadra_AS.release: @app_services_config -> #{@app_services_config}")
         log("Payadra_AS.release: @app_src_path -> #{@app_src_path}")
         log("Payadra_AS.release: @domain_name -> #{@domain_name}")
-        log("Payadra_AS.release: JAVA_HOME: #{@java_home}")
+        log("Payadra_AS.release: JAVA_HOME: #{@@java_home}")
         log("Payadra_AS.release: @java_binary: #{@java_binary}")
         log("Payadra_AS.release: @payara_install: #{@payara_install}")
         log("Payadra_AS.release: @payara_home: #{@payara_home}")
@@ -166,8 +166,8 @@ module JavaBuildpack
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
-        commandDeployWar = "export JAVA_HOME=#{@java_home};"
-        commandDeployWar << "export AS_JAVA=#{@java_home};"
+        commandDeployWar = "export JAVA_HOME=#{@@java_home};"
+        commandDeployWar << "export AS_JAVA=#{@@java_home};"
         commandDeployWar << "export java=#{@java_binary};"
         commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
         commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
@@ -180,8 +180,8 @@ module JavaBuildpack
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
-        commandStartDomain = "export JAVA_HOME=#{@java_home};"
-        commandStartDomain << "export AS_JAVA=#{@java_home};"
+        commandStartDomain = "export JAVA_HOME=#{@@java_home};"
+        commandStartDomain << "export AS_JAVA=#{@@java_home};"
         commandStartDomain << "export java=#{@java_binary};"
         commandStartDomain << "export AS_ADMIN_PASSWORDFILE=;"
         commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
@@ -352,12 +352,12 @@ module JavaBuildpack
           payara_installer = JavaBuildpack::Container::Payara::PayaraInstaller.new(input_file, installation_map)
           result_map    = payara_installer.install
 
-          @java_home   = result_map['java_home']
+          @@java_home   = result_map['java_home']
           @java_binary   = result_map['java_binary']
           @payara_install = result_map['payara_install']
           @payara_home = result_map['payara_home']
           @payara_asadmin = result_map['payara_asadmin']
-          log("Payara_AS.download_and_install_payara: @java_home -> #{@java_home}")
+          log("Payara_AS.download_and_install_payara: @java_home -> #{@@java_home}")
           log("Payara_AS.download_and_install_payara: @payara_install -> #{@payara_install}")
           log("Payara_AS.download_and_install_payara: @payara_home -> #{@payara_home}")
           log("Payara_AS.download_and_install_payara: @payara_asadmin -> #{@payara_asadmin}")
@@ -376,7 +376,7 @@ module JavaBuildpack
           'server_name'              => @server_name,
           'domain_home'              => @domain_home,
           'droplet'                  => @droplet,
-          'java_home'                => @java_home,
+          'java_home'                => @@java_home,
           'java_binary'                => @java_binary,
           'config_cache_root'        => @config_cache_root,
           'payara_sandbox_root'         => @payara_sandbox_root,
@@ -394,7 +394,7 @@ module JavaBuildpack
         log("Payadra_AS.configure: @app_src_path -> #{@app_src_path}")
         log("Payadra_AS.configure: @domain_name -> #{@domain_name}")
         log("Payadra_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
-        log("Payara_AS.configure: @java_home -> #{@java_home}")
+        log("Payara_AS.configure: @java_home -> #{@@java_home}")
         log("Payara_AS.configure: @payara_install -> #{@payara_install}")
         log("Payara_AS.configure: @payara_home -> #{@payara_home}")
         log("Payara_AS.configure: @payara_asadmin -> #{@payara_asadmin}")
@@ -402,12 +402,12 @@ module JavaBuildpack
         configurer = JavaBuildpack::Container::Payara::PayaraConfigurer.new(configuration_map)
         result_map    = configurer.configure
 
-        @java_home   = result_map['java_home']
+        @@java_home   = result_map['java_home']
         @java_binary   = result_map['java_binary']
         @payara_install = result_map['payara_install']
         @payara_home = result_map['payara_home']
-        $payara_asadmin = result_map['payara_asadmin']
-        log("Payadra_AS.configure: @java_home -> #{@java_home}")
+        @payara_asadmin = result_map['payara_asadmin']
+        log("Payadra_AS.configure: @java_home -> #{@@java_home}")
         log("Payadra_AS.configure: @java_binary -> #{@java_binary}")
         log("Payadra_AS.configure: @payara_install -> #{@payara_install}")
         log("Payadra_AS.configure: @payara_home -> #{@payara_home}")
