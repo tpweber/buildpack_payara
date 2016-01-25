@@ -74,9 +74,9 @@ module JavaBuildpack
         def install_using_zip(zipFile)
           log("PayaraInstaller.install: PAYARA_INSTALL_RESPONSE_FILE -> #{PAYARA_INSTALL_RESPONSE_FILE}")
           log("PayaraInstaller.install_using_zip: #{zipFile}")
-          log("Installing Payara from downloaded zip file using config script under #{@payara_install}!")
+          log("Installing Payara from downloaded zip file using config script under #{@payara_home}!")
 
-          system "/usr/bin/unzip #{zipFile} -d #{@payara_install} >/dev/null"
+          system "/usr/bin/unzip #{zipFile} -d #{@payara_home} >/dev/null"
 
           log("PayaraInstaller.install_using_zip: unzipped #{zipFile} to #{@payara_home}")
 
