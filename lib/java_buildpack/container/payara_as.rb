@@ -140,13 +140,6 @@ module JavaBuildpack
         #pre_start_script     = releaser.pre_start
         #post_shutdown_script = releaser.post_shutdown
 
-=begin
-        [
-          @droplet.java_home.as_env_var,
-          "USER_MEM_ARGS=\"#{@droplet.java_opts.join(' ')}\"",
-          "sleep 10; #{pre_start_script}; #{monitor_script} ; #{@domain_home}/startWebLogic.sh; #{post_shutdown_script}"
-        ].flatten.compact.join(' ')
-=end
         log("Payadra_AS.release: @app_name -> #{@app_name}")
         log("Payadra_AS.release: @application -> #{@application}")
         log("Payadra_AS.release: @app_services_config -> #{@app_services_config}")
@@ -157,9 +150,14 @@ module JavaBuildpack
         log("Payadra_AS.release: @payara_install: #{@payara_install}")
         log("Payadra_AS.release: @payara_home: #{@payara_home}")
         log("Payadra_AS.release: @payara_asadmin: #{@payara_asadmin}")
-        start_domain_payara
-        return deploy_war_to_domain
+        start_domain_script = start_domain_payara
+        deploy_war_script = deploy_war_to_domain
 
+        [
+          @droplet.java_home.as_env_var,
+          "USER_MEM_ARGS=\"#{@droplet.java_opts.join(' ')}\"",
+          "sleep 10; #{start_domain_script}; #{deploy_war_script}"
+        ].flatten.compact.join(' ')
       end
 
       def deploy_war_to_domain
@@ -172,15 +170,15 @@ module JavaBuildpack
         commandDeployWar << "export AS_JAVA=#{@java_home};"
         commandDeployWar << "export java=#{@java_binary};"
         commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
-        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name} > #{@payara_home}/domain.log"
-        system "#{commandDeployWar}"
+        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true --target=#{@domain_name} #{@app_name} > #{@payara_home}/domain.log;"
+        #system "#{commandDeployWar}"
 
         log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
         return commandDeployWar
       end
 
       def start_domain_payara
-        log("Payara_AS.start_domain_payara: stating domain: #{@domain_name}")
+        log("Payara_AS.start_domain_payara: starting domain: #{@domain_name}")
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
