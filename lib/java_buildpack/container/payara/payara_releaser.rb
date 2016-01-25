@@ -26,19 +26,20 @@ module JavaBuildpack
       class PayaraReleaser
         include JavaBuildpack::Container::Payara::PayaraConstants
 
-        def initialize(application, droplet, domain_home, server_name, start_in_wlx_mode)
+        def initialize(application, droplet, domain_home, server_name, start_in_wlx_mode, payara_home)
           @droplet           = droplet
           @application       = application
           @domain_home       = domain_home
           @server_name       = server_name
           @start_in_wlx_mode = start_in_wlx_mode
+          @payara_home = payara_home
 
           log("PayaraReleaser.initialize: @application -> #{@application}")
           log("PayaraReleaser.initialize: @domain_home -> #{@domain_home}")
           log("PayaraReleaser.initialize: @server_name -> #{@server_name}")
           log("PayaraReleaser.initialize: @droplet -> #{@droplet}")
           log("PayaraReleaser.initialize: @droplet.root -> #{@droplet.root}")
-          #log("PayaraReleaser.initialize: @java_home -> #{@java_home}")
+          log("PayaraReleaser.initialize: @payara_home -> #{@payara_home}")
 
           create_scripts
         end
@@ -63,12 +64,20 @@ module JavaBuildpack
           #@pre_start_script = Dir.glob("#{@application.root}/#{PRE_START_SCRIPT}")[0]
           #@post_stop_script = Dir.glob("#{@application.root}/#{POST_STOP_SCRIPT}")[0]
 
+          oracle_jre_path = Dir.glob("#{@droplet.root}" + "/.java-buildpack/oracle_jre/")[0]
+          log("PayaraInstaller.install_using_zip: oracle_jre_path: #{oracle_jre_path}")
+          @java_binary = Dir.glob("#{oracle_jre_path}" + '**/' + JAVA_BINARY)[0]
+          @payara_asadmin = Dir.glob("#{@payara_home}" + '/' + PAYARA_CONFIGURE_SCRIPT)[0]
+          log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
+          @java_home = File.dirname(@java_binary) + '/..'
+          log("PayaraInstaller.install_using_zip: @java_home: #{@java_home}")
+
           #modify_pre_start_script
-          #{
-          #  'java_home'   => @java_home,
-          #  'java_binary'   => @java_binary,
-           # 'payara_asadmin' => @payara_asadmin
-          #}
+          {
+            'java_home'   => @java_home,
+            'java_binary'   => @java_binary,
+            'payara_asadmin' => @payara_asadmin
+          }
         end
 
         # The Pre-Start script
