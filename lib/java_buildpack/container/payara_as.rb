@@ -140,7 +140,11 @@ module JavaBuildpack
         log("Payadra_AS.release: @app_services_config -> #{@app_services_config}")
         log("Payadra_AS.release: @app_src_path -> #{@app_src_path}")
         log("Payadra_AS.release: @domain_name -> #{@domain_name}")
-        log("Payadra_AS.release: @payara_asadmin -> #{@payara_asadmin}")
+        log("Payadra_AS.release: JAVA_HOME: #{@java_home}")
+        log("Payadra_AS.release: @java_binary: #{@java_binary}")
+        log("Payadra_AS.release: @payara_install: #{@payara_install}")
+        log("Payadra_AS.release: @payara_home: #{@payara_home}")
+        log("Payadra_AS.release: @payara_asadmin: #{@payara_asadmin}")
       start_domain_payara
       deploy_war_to_domain
 

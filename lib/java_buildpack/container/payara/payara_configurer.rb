@@ -187,7 +187,7 @@ module JavaBuildpack
           commandStopDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt stop-domain --force=true #{@domain_name} > #{@payara_home}/domainCreation.log"
           system "#{commandStopDomain}"
 
-          log("PayaraConfigurer.create_domain: commandDeleteDomain: #{commandStopDomain}")
+          log("PayaraConfigurer.create_domain: commandStopDomain: #{commandStopDomain}")
 
           commandDeleteDomain = "export JAVA_HOME=#{@java_home};"
           commandDeleteDomain << "export AS_JAVA=#{@java_home};"
