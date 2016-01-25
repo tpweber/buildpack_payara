@@ -85,6 +85,8 @@ module JavaBuildpack
           system "${AS_JAVA}/bin/java -version"
           system "#{@payara_asadmin} -?"
 
+          log("PayaraConfigurer.configure: scripts done.")
+
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
           update_domain_config_template(@payara_domain_yaml_config)
 

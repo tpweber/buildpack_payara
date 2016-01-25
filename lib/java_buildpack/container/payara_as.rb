@@ -297,6 +297,7 @@ module JavaBuildpack
           result_map    = payara_installer.install
 
           @java_home   = result_map['java_home']
+          @java_binary   = result_map['java_binary']
           @payara_install = result_map['payara_install']
           @payara_home = result_map['payara_home']
           @payara_asadmin = result_map['payara_asadmin']
