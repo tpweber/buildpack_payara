@@ -32,6 +32,7 @@ module JavaBuildpack
           @server_name              = configuration_map['server_name']
           @droplet                  = configuration_map['droplet']
           @java_home                = configuration_map['java_home']
+          @java_binary                = configuration_map['java_binary']
           @config_cache_root        = configuration_map['config_cache_root']
           @payara_sandbox_root         = configuration_map['payara_sandbox_root']
           @payara_home                 = configuration_map['payara_home']
@@ -50,6 +51,7 @@ module JavaBuildpack
           log("PayaraConfigurer.initialize: @server_name -> #{@server_name}")
           log("PayaraConfigurer.initialize: @droplet -> #{@droplet}")
           log("PayaraConfigurer.initialize: @java_home -> #{@java_home }")
+          log("PayaraConfigurer.initialize: @java_binary -> #{@java_binary }")
           log("PayaraConfigurer.initialize: @config_cache_root -> #{@config_cache_root}")
           log("PayaraConfigurer.initialize: @payara_sandbox_root -> #{@payara_sandbox_root}")
           log("PayaraConfigurer.initialize: @payara_home -> #{@payara_home}")
@@ -68,6 +70,7 @@ module JavaBuildpack
           log("PayaraConfigurer.configure: @payara_asadmin -> #{@payara_asadmin}")
           log("PayaraConfigurer.configure: @application.root: #{@application.root}")
           log("PayaraConfigurer.configure: @java_home: #{@java_home}")
+          log("PayaraConfigurer.configure: @java_binary -> #{@java_binary }")
           print "-----> Configuring Payara domain under #{@payara_home}\n"
 
           # Save the location of the Payara Domain template jar file - this varies across releases
@@ -76,8 +79,10 @@ module JavaBuildpack
           #@payara_domain_template_jar = Dir.glob("#{@payara_install}/**/wls.jar")[0]
 
           command = "export JAVA_HOME=#{@java_home};"
-          command = "export AS_JAVA=#{@java_home}/bin/java;"
+          command << "export AS_JAVA=#{@java_binary};"
+          command << "export java=#{@java_binary};"
           system "#{command}"
+          system "java -version"
           system "#{@payara_asadmin} -?"
 
           # Now add or update the Domain path and Wls Home inside the payaraDomainYamlConfigFile
