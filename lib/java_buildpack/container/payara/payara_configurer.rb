@@ -193,7 +193,7 @@ module JavaBuildpack
           log("PayaraConfigurer.check_domain: domains: #{domains}")
           included = domains.include? "#{@domain_name}"
           if not included
-=end
+
             log("PayaraConfigurer.create_domain: creating domain: #{@domain_name}")
             commandCreateDomain = "export JAVA_HOME=#{@java_home};"
             commandCreateDomain << "export AS_JAVA=#{@java_home};"
@@ -202,7 +202,7 @@ module JavaBuildpack
             system "#{commandCreateDomain}"
             log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
           #end
-
+=end
           print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
           print "       Domain Creation log saved at: #{@payara_home}/domainCreation.log\n"
         end
