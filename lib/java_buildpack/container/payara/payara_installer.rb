@@ -37,6 +37,8 @@ module JavaBuildpack
           log("PayaraInstaller.initialize: @payara_install -> #{@payara_install}")
           log("PayaraInstaller.initialize: @config_cache_root -> #{@config_cache_root}")
           log("PayaraInstaller.initialize: @payara_asadmin -> #{@payara_asadmin}")
+
+          log("PayaraInstaller.initialize: @payara_asadmin -> #{@payara_asadmin}")
         end
 
         # Do the installation
@@ -126,16 +128,11 @@ module JavaBuildpack
           @java_home = check_and_reset_java_home_for_non_linux(@java_home)
           # save_middleware_home_in_configure_script(configure_script, @payara_install_path, @java_home)
 
-          command = "export JAVA_HOME=#{@java_home} > #{@payara_sandbox_root}/install.log"
-          #command << " export MW_HOME=#{@payara_install_path}; "
-          #command << " echo no |  #{configure_script} > #{@payara_sandbox_root}/install.log"
           log("PayaraInstaller.install_using_zip: JAVA_HOME: #{@java_home}")
           log("PayaraInstaller.install_using_zip: @java_binary: #{@java_binary}")
           log("PayaraInstaller.install_using_zip: @payara_install: #{@payara_install}")
           log("PayaraInstaller.install_using_zip: @payara_home: #{@payara_home}")
           log("PayaraInstaller.install_using_zip: @payara_asadmin: #{@payara_asadmin}")
-
-          system "#{command}"
 
           log_and_print("Finished running install, output saved at: #{@payara_sandbox_root}/install.log")
 
