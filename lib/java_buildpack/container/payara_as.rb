@@ -162,6 +162,8 @@ module JavaBuildpack
         @droplet.environment_variables.add_environment_variable 'AS_JAVA', "#{@java_home}"
         @droplet.environment_variables.add_environment_variable 'java', "#{@java_binary}"
         @droplet.environment_variables.add_environment_variable 'AS_ADMIN_PASSWORDFILE', ""
+
+        log("Payadra_AS.release: environment_variables: #{@droplet.environment_variables.as_env_vars}")
         [
           @droplet.environment_variables.as_env_vars,
           "#{start_domain_script}; #{deploy_war_script}"
