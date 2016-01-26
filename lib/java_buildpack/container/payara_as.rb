@@ -282,10 +282,12 @@ module JavaBuildpack
         @bin_home  = @payara_domain_path + @domain_name
         @domain_home  = @payara_domain_path + @domain_name
         @app_src_path = @application.root
+        @app_env = @application.environment
 
         log("Payara_AS.load: @bin_home -> #{@bin_home}")
         log("Payara_AS.load: @domain_home -> #{@domain_home}")
         log("Payara_AS.load: @app_src_path -> #{@app_src_path}")
+        log("Payara_AS.load: @app_env -> #{@app_env}")
         log("Payara_AS.load: @app_name -> #{@app_name}")
         log("Payara_AS.load: @domain_name -> #{@domain_name}")
         log("Payara_AS.load: @server_name -> #{@server_name}")
@@ -426,8 +428,8 @@ module JavaBuildpack
 
         return unless vcap_application_env_value
         vcap_app_map = YAML.load(vcap_application_env_value)
+        log("SSSS: #{vcap_app_map}")
 
-        # name     = vcap_app_map['name']
         @app_name    = vcap_app_map['application_name']
 
         @domain_name = @app_name + 'Domain'
