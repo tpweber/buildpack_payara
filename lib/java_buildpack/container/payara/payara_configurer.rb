@@ -79,7 +79,7 @@ module JavaBuildpack
           log_domain_config
 
           create_domain
-          check_domain
+          #check_domain
           puts "(#{(Time.now - configure_start_time).duration})"
 
           {
@@ -180,6 +180,7 @@ module JavaBuildpack
           commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
           system "#{commandPW}"
 
+=begin
           commandListDomains = "export JAVA_HOME=#{@java_home};"
           commandListDomains << "export AS_JAVA=#{@java_home};"
           commandListDomains << "export java=#{@java_binary};"
@@ -192,6 +193,7 @@ module JavaBuildpack
           log("PayaraConfigurer.check_domain: domains: #{domains}")
           included = domains.include? "#{@domain_name}"
           if not included
+=end
             log("PayaraConfigurer.create_domain: creating domain: #{@domain_name}")
             commandCreateDomain = "export JAVA_HOME=#{@java_home};"
             commandCreateDomain << "export AS_JAVA=#{@java_home};"
@@ -199,7 +201,7 @@ module JavaBuildpack
             commandCreateDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt create-domain #{@domain_name} > #{@payara_home}/domainCreation.log"
             system "#{commandCreateDomain}"
             log("PayaraConfigurer.create_domain: commandCreateDomain: #{commandCreateDomain}")
-          end
+          #end
 
           print "-----> Finished configuring Payara Domain [#{@domain_name}] under #{@payara_domain_path}.\n"
           print "       Domain Creation log saved at: #{@payara_home}/domainCreation.log\n"
