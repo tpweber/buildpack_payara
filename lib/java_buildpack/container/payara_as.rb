@@ -158,10 +158,13 @@ module JavaBuildpack
         deploy_war_script = deploy_war_to_domain
         log("Payadra_AS.release: deploy_war_script: #{deploy_war_script}")
 
+        @droplet.environment_variables.add_environment_variable 'JAVA_HOME', "#{@java_home}"
+        @droplet.environment_variables.add_environment_variable 'AS_JAVA', "#{@java_home}"
+        @droplet.environment_variables.add_environment_variable 'java', "#{@java_binary}"
+        @droplet.environment_variables.add_environment_variable 'AS_ADMIN_PASSWORDFILE', ""
         [
-          @droplet.java_home.as_env_var,
-          "USER_MEM_ARGS=\"#{@droplet.java_opts.join(' ')}\"",
-          "sleep 10; #{start_domain_script}; #{deploy_war_script}"
+          @droplet.environment_variables.as_env_vars,
+          "#{start_domain_script}; #{deploy_war_script}"
         ].flatten.compact.join(' ')
       end
 
@@ -171,11 +174,7 @@ module JavaBuildpack
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
-        commandDeployWar = "export JAVA_HOME=#{@java_home};"
-        commandDeployWar << "export AS_JAVA=#{@java_home};"
-        commandDeployWar << "export java=#{@java_binary};"
-        commandDeployWar << "export AS_ADMIN_PASSWORDFILE=;"
-        commandDeployWar << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true #{@app_name};"
+        commandDeployWar = "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt deploy --force=true #{@app_name};"
         #system "#{commandDeployWar}"
 
         log("Payara_AS.commandDeployWar: commandDeployWar: #{commandDeployWar}")
@@ -187,11 +186,7 @@ module JavaBuildpack
         commandPW = "echo AS_ADMIN_PASSWORD= > #{@payara_home}/passwordfile.txt"
         system "#{commandPW}"
 
-        commandStartDomain = "export JAVA_HOME=#{@java_home};"
-        commandStartDomain << "export AS_JAVA=#{@java_home};"
-        commandStartDomain << "export java=#{@java_binary};"
-        commandStartDomain << "export AS_ADMIN_PASSWORDFILE=;"
-        commandStartDomain << "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name};"
+        commandStartDomain = "#{@payara_asadmin} --user admin --passwordfile #{@payara_home}/passwordfile.txt start-domain #{@domain_name};"
         #system "#{commandStartDomain}"
 
         log("Payara_AS.start_domain_payara: commandStartDomain: #{commandStartDomain}")
